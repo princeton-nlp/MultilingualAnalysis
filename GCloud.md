@@ -5,7 +5,7 @@
 1. Use a Deep Learning VM Image to avoid installing CUDA. There are also a few images which have Tensorflow or PyTorch installed already
 
 ### VM Setup
-1. Run the `attention_guidance_setup.sh` script to set the VM up
+1. Run the `tpu_gcloud_setup.sh` script to set the VM up - `tpu_gcloud_setup.sh -i` or `tpu_gcloud_setup.sh -r`
 
 ### Storage
 1. Mounting a storage bucket as a file system [link](https://cloud.google.com/storage/docs/gcs-fuse#using)
