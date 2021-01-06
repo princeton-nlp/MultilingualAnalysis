@@ -34,7 +34,8 @@ def create_tokenizer(args):
     ])
 
     # Save files to disk
-    tokenizer.save(args.store_files)
+    # tokenizer.save(args.store_files)
+    tokenizer.save_model(args.store_files)
 
     tokenizer_config = {
         "max_len": 512

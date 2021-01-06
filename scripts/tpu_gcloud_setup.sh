@@ -61,6 +61,7 @@ function Wandb {
 for arg in "$@"; do
   if [[ "$arg" = -i ]] || [[ "$arg" = --initial ]]; then
     ARG_INITIAL=true
+    ARG_RESTART=false
   fi
   if [[ "$arg" = -r ]] || [[ "$arg" = --restart ]]; then
     ARG_RESTART=true

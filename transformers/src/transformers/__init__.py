@@ -686,6 +686,7 @@ if is_torch_available():
 
     # Trainer
     from .trainer import Trainer
+    from .trainer_word_modifications import TrainerWordModifications
     from .trainer_pt_utils import torch_distributed_zero_first
 else:
     from .utils.dummy_pt_objects import *
