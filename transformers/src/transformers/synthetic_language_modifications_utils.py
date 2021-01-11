@@ -4,6 +4,7 @@ Class and function definitions for word-based modifications
 
 import json
 import torch
+import numpy as np
 
 class WordBasedModifications():
     def __init__(self, data_args):
@@ -33,6 +34,13 @@ class WordBasedModifications():
         # temp = map(substitute, input_id_array)
 
         # TODO: Optimize this code. Currently using for loops
+
+        # Check if all the inputs need to be modified
+        if self.data_args.vocab_modification == 'random':
+            # With a 50% probability, just return the original inputs
+            if np.random.uniform() < 0.5:
+                return inputs
+
 
         for i in range(inputs['input_ids'].shape[0]):
             for j in range(inputs['input_ids'].shape[1]):
