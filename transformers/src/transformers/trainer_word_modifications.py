@@ -95,6 +95,9 @@ from .trainer_utils import (
 from .training_args import TrainingArguments
 from .utils import logging
 
+# Synthetic modifications
+from .synthetic_language_modifications_utils import WordBasedModifications
+
 
 _is_native_amp_available = False
 
@@ -217,6 +220,7 @@ class TrainerWordModifications:
         self,
         model: Union[PreTrainedModel, torch.nn.Module] = None,
         args: TrainingArguments = None,
+        data_args = None,
         data_collator: Optional[DataCollator] = None,
         train_dataset: Optional[Dataset] = None,
         eval_dataset: Optional[Dataset] = None,
@@ -230,6 +234,7 @@ class TrainerWordModifications:
             logger.info("No `TrainingArguments` passed, using the current path as `output_dir`.")
             args = TrainingArguments("tmp_trainer")
         self.args = args
+        self.data_args = data_args
         # Seed must be set before instantiating the model when using model
         set_seed(self.args.seed)
         assert (
@@ -763,6 +768,9 @@ class TrainerWordModifications:
                 for _ in train_dataloader:
                     break
 
+        # Synthetic language modifications
+        self.word_based_modifications = WordBasedModifications(self.data_args)
+
         for epoch in range(epochs_trained, num_train_epochs):
             if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
                 train_dataloader.sampler.set_epoch(epoch)
@@ -1133,6 +1141,11 @@ class TrainerWordModifications:
         """
 
         model.train()
+
+        # Modify inputs if required
+        if self.data_args.permute_vocabulary:
+            inputs = self.word_based_modifications.modify_inputs_permute(inputs)
+
         inputs = self._prepare_inputs(inputs)
 
         if self.use_amp:
