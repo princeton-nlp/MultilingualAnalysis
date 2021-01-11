@@ -42,10 +42,25 @@ class WordBasedModifications():
                 return inputs
 
 
-        for i in range(inputs['input_ids'].shape[0]):
-            for j in range(inputs['input_ids'].shape[1]):
-                inputs['input_ids'][i,j] = self.vocab_mapping[inputs['input_ids'][i,j].item()]
-                if inputs['labels'][i,j] >= 0:
-                    inputs['labels'][i,j] = self.vocab_mapping[inputs['labels'][i,j].item()]
+        # for i in range(inputs['input_ids'].shape[0]):
+        #     for j in range(inputs['input_ids'].shape[1]):
+        #         inputs['input_ids'][i,j] = self.vocab_mapping[inputs['input_ids'][i,j].item()]
+        #         # if inputs['labels'][i,j] >= 0:
+        #         #     inputs['labels'][i,j] = self.vocab_mapping[inputs['labels'][i,j].item()]
+        for i in range(len(inputs['input_ids'])):
+            inputs['input_ids'][i] = self.vocab_mapping[inputs['input_ids'][i]]               
 
         return inputs
+
+    def modify_inputs_permute_all(self, train_dataset):
+        """
+        Modify all the inputs in the dataset
+        """
+        
+        length_of_dataset = len(train_dataset)
+        for i in range(len(train_dataset)):
+            modified_inputs = self.modify_inputs_permute(train_dataset[i])
+            train_dataset[i]['input_ids'] = modified_inputs['input_ids']
+            # train_dataset[i]['labels'] = modified_inputs['labels']
+
+        return train_dataset

@@ -252,8 +252,23 @@ class TrainerWordModifications:
         self.model = model
         default_collator = default_data_collator if tokenizer is None else DataCollatorWithPadding(tokenizer)
         self.data_collator = data_collator if data_collator is not None else default_collator
+        
+        # Initialize the dataset
         self.train_dataset = train_dataset
+
+        # Synthetic language modifications
+        self.word_based_modifications = WordBasedModifications(self.data_args)
+        
+        # Modify inputs if required
+        if self.data_args.permute_vocabulary and self.train_dataset:
+            self.train_dataset = self.word_based_modifications.modify_inputs_permute_all(self.train_dataset)
+
         self.eval_dataset = eval_dataset
+
+        # Modify inputs if required
+        if self.data_args.permute_vocabulary and self.eval_dataset:
+            self.eval_dataset = self.word_based_modifications.modify_inputs_permute_all(self.eval_dataset)
+
         self.tokenizer = tokenizer
 
         self.compute_metrics = compute_metrics
@@ -768,8 +783,8 @@ class TrainerWordModifications:
                 for _ in train_dataloader:
                     break
 
-        # Synthetic language modifications
-        self.word_based_modifications = WordBasedModifications(self.data_args)
+        # # Synthetic language modifications
+        # self.word_based_modifications = WordBasedModifications(self.data_args)
 
         for epoch in range(epochs_trained, num_train_epochs):
             if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
@@ -1142,9 +1157,11 @@ class TrainerWordModifications:
 
         model.train()
 
-        # Modify inputs if required
-        if self.data_args.permute_vocabulary:
-            inputs = self.word_based_modifications.modify_inputs_permute(inputs)
+        # # Modify inputs if required
+        # # NOTE: The inputs can be modified here for GPU
+        # # NOTE: The train dataloader itself needs to be modified for TPU
+        # if self.data_args.permute_vocabulary:
+        #     inputs = self.word_based_modifications.modify_inputs_permute(inputs)
 
         inputs = self._prepare_inputs(inputs)
 
