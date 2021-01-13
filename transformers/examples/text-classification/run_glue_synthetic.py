@@ -359,6 +359,7 @@ def main():
     trainer = TrainerWordModifications(
         model=model,
         args=training_args,
+        data_args=data_args,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset if training_args.do_eval else None,
         compute_metrics=compute_metrics,
