@@ -45,6 +45,7 @@ function RestartVM {
     # export TPU_IP_ADDRESS=10.38.186.234
     # export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
     cd source_code/Multilingual/transformers/
+    
 }
 
 function Wandb {

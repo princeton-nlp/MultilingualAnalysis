@@ -5,6 +5,7 @@ Class and function definitions for word-based modifications
 import json
 import torch
 import numpy as np
+from tqdm import tqdm
 
 class WordBasedModifications():
     def __init__(self, data_args):
@@ -26,12 +27,6 @@ class WordBasedModifications():
         # Information about inputs:
         # inputs['input_ids'].device is cpu
         # inputs['input_ids'] is torch.Tensor
-
-        # # Function for substituting indices using vocab mapping
-        # def substitute(x):
-        #     return self.vocab_mapping[x]
-        
-        # temp = map(substitute, input_id_array)
 
         # TODO: Optimize this code. Currently using for loops
 
@@ -58,7 +53,7 @@ class WordBasedModifications():
         """
         
         length_of_dataset = len(train_dataset)
-        for i in range(len(train_dataset)):
+        for i in tqdm(range(len(train_dataset))):
             modified_inputs = self.modify_inputs_permute(train_dataset[i])
             train_dataset[i]['input_ids'] = modified_inputs['input_ids']
             # train_dataset[i]['labels'] = modified_inputs['labels']
