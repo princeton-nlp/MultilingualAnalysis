@@ -53,6 +53,11 @@ class WordBasedModifications():
         """
         
         length_of_dataset = len(train_dataset)
+        
+        # Print statement
+        print("Word-based transformation: Permuting the vocabulary")
+
+        # Loop over all the sentences
         for i in tqdm(range(len(train_dataset))):
             modified_inputs = self.modify_inputs_permute(train_dataset[i])
             train_dataset[i]['input_ids'] = modified_inputs['input_ids']

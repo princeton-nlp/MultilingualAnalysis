@@ -45,6 +45,8 @@ from transformers import (
 )
 from transformers.trainer_utils import is_main_process
 
+# Synthetic languages
+from synthetic_utils import modify_inputs_permute
 
 logger = logging.getLogger(__name__)
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_MASKED_LM_MAPPING.keys())
@@ -154,7 +156,7 @@ class DataTrainingArguments:
     vocab_modification: str = field(
         default='all',
         metadata={
-            "help": "all/random"
+            "help": "all/random||add/replace"
         },
     )    
 
@@ -377,6 +379,10 @@ def main():
             num_proc=data_args.preprocessing_num_workers,
             load_from_cache_file=not data_args.overwrite_cache,
         )
+
+    # Make synthetic language modifications if necessary
+    if data_args.permute_vocabulary:
+        tokenized_datasets = modify_inputs_permute(data_args, training_args, tokenized_datasets)
 
     # Data collator
     # This one will take care of randomly masking the tokens.
