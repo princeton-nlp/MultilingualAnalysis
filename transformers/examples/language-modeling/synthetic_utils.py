@@ -21,22 +21,26 @@ def modify_inputs_permute(data_args, training_args, datasets):
     if data_args.permute_vocabulary:
         with open(data_args.vocab_permutation_file, 'r') as fp:
             vocab_mapping = json.load(fp, object_hook=jsonKV2int)
+            
+    # Check the arguments
+    assert data_args.vocab_modification == 'add' or data_args.vocab_modification == 'replace', "Illegal option for argument vocab_modification"
 
-    # Step 2: Check if a modified dataset needs to be ADDED or if it should be REPLACED
+    # Step 2: Create a modified dataset
+    # Map function for datasets.map
+    def map_function(examples):
+        for j in range(len(examples['input_ids'])):
+            examples['input_ids'][j] = [vocab_mapping[examples['input_ids'][j][i]] for i in range(len(examples['input_ids'][j]))]
+        return examples
+
+    # Create new dataset using map function
+    modified_dataset = datasets.map(
+        map_function,
+        batched=True,
+        num_proc=data_args.preprocessing_num_workers
+    )
+    
+    # Step 3: Check if a modified dataset needs to be ADDED or if it should be REPLACED
     if data_args.vocab_modification == 'add':
-        # Map function for datasets.map
-        def map_function(examples):
-            for j in range(len(examples['input_ids'])):
-                examples['input_ids'][j] = [vocab_mapping[examples['input_ids'][j][i]] for i in range(len(examples['input_ids'][j]))]
-            return examples
-
-        # Create new dataset using map function
-        modified_dataset = datasets.map(
-            map_function,
-            batched=True,
-            num_proc=data_args.preprocessing_num_workers
-        )
-
         # Concatenate the two datasets
         combined_dataset = {}
         if training_args.do_train:
@@ -44,9 +48,16 @@ def modify_inputs_permute(data_args, training_args, datasets):
 
         if training_args.do_eval:
             combined_dataset['validation'] = concatenate_datasets([datasets['validation'], modified_dataset['validation']])
-
         return combined_dataset
 
+    elif data_args.vocab_modification == 'replace':
+        replaced_dataset = {}
+        if training_args.do_train:
+            replaced_dataset['train'] = modified_dataset['train']
+
+        if training_args.do_eval:
+            replaced_dataset['validation'] = modified_dataset['validation']
+        return replaced_dataset
         
 
 # class WordBasedModifications():
