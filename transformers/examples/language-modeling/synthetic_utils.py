@@ -8,7 +8,7 @@ import numpy as np
 from tqdm import tqdm
 from datasets import concatenate_datasets
 
-def modify_inputs_permute(data_args, training_args, datasets):
+def modify_inputs_permute(data_args, training_args, datasets, task_name):
     # Step 1: Load the vocab mapping
     # Function for modifying string json to integer json
     # https://stackoverflow.com/questions/1450957/pythons-json-module-converts-int-dictionary-keys-to-strings
@@ -23,7 +23,7 @@ def modify_inputs_permute(data_args, training_args, datasets):
             vocab_mapping = json.load(fp, object_hook=jsonKV2int)
             
     # Check the arguments
-    assert data_args.vocab_modification == 'add' or data_args.vocab_modification == 'replace', "Illegal option for argument vocab_modification"
+    assert data_args.word_modification == 'add' or data_args.word_modification == 'replace', "Illegal option for argument word_modification"
 
     # Step 2: Create a modified dataset
     # Map function for datasets.map
@@ -47,7 +47,8 @@ def modify_inputs_permute(data_args, training_args, datasets):
             combined_dataset['train'] = concatenate_datasets([datasets['train'], modified_dataset['train']])
 
         if training_args.do_eval:
-            combined_dataset['validation'] = concatenate_datasets([datasets['validation'], modified_dataset['validation']])
+            dict_key = "validation_matched" if task_name == "mnli" else "validation"
+            combined_dataset[dict_key] = concatenate_datasets([datasets[dict_key], modified_dataset[dict_key]])
         return combined_dataset
 
     elif data_args.word_modification == 'replace':
@@ -56,13 +57,14 @@ def modify_inputs_permute(data_args, training_args, datasets):
             replaced_dataset['train'] = modified_dataset['train']
 
         if training_args.do_eval:
-            replaced_dataset['validation'] = modified_dataset['validation']
+            dict_key = "validation_matched" if task_name == "mnli" else "validation"
+            replaced_dataset[dict_key] = modified_dataset[dict_key]
         return replaced_dataset
         
 
-def modify_inputs_words(data_args, training_args, datasets):
+def modify_inputs_words(data_args, training_args, datasets, task_name):
     # Get the sampling range for modifying the words
-    sampling_range = [int(i) for i in data_args.modify_words_vocab_modification.strip().split('-')]
+    sampling_range = [int(i) for i in data_args.modify_words_range.strip().split('-')]
 
     # Step 1: Create map function for modification
     def map_function(examples):
@@ -86,7 +88,8 @@ def modify_inputs_words(data_args, training_args, datasets):
             combined_dataset['train'] = concatenate_datasets([datasets['train'], modified_dataset['train']])
 
         if training_args.do_eval:
-            combined_dataset['validation'] = concatenate_datasets([datasets['validation'], modified_dataset['validation']])
+            dict_key = "validation_matched" if task_name == "mnli" else "validation"
+            combined_dataset[dict_key] = concatenate_datasets([datasets[dict_key], modified_dataset[dict_key]])
         return combined_dataset
 
     elif data_args.word_modification == 'replace':
@@ -95,5 +98,14 @@ def modify_inputs_words(data_args, training_args, datasets):
             replaced_dataset['train'] = modified_dataset['train']
 
         if training_args.do_eval:
-            replaced_dataset['validation'] = modified_dataset['validation']
-        return replaced_dataset        
+            dict_key = "validation_matched" if task_name == "mnli" else "validation"
+            replaced_dataset[dict_key] = modified_dataset[dict_key]
+        return replaced_dataset
+
+def modify_inputs(data_args, training_args, datasets, task_name=None):
+    if data_args.permute_vocabulary:
+        datasets = modify_inputs_permute(data_args, training_args, datasets, task_name)
+    if data_args.modify_words:
+        datasets = modify_inputs_words(data_args, training_args, datasets, task_name)
+
+    return datasets

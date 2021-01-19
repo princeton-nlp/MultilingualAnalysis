@@ -41,6 +41,8 @@ from transformers import (
 )
 from transformers.trainer_utils import is_main_process
 
+# Synthetic languages
+from synthetic_utils import modify_inputs
 
 task_to_keys = {
     "cola": ("sentence", None),
@@ -94,6 +96,7 @@ class DataTrainingArguments:
     validation_file: Optional[str] = field(
         default=None, metadata={"help": "A csv or a json file containing the validation data."}
     )
+    # Permute the vocabulary
     permute_vocabulary: bool = field(
         default=False,
         metadata={
@@ -106,10 +109,29 @@ class DataTrainingArguments:
             "help": "File which contains the mapping from the old vocabulary file to the new one. Global names are preferred"
         },
     )
-    vocab_modification: str = field(
+    word_modification: str = field(
         default='all',
         metadata={
-            "help": "all/random"
+            "help": "all/random||add/replace"
+        },
+    )
+    # Add, delete, or modify words
+    modify_words: bool = field(
+        default=False,
+        metadata={
+            "help": "Randomly replace words with a random word."
+        },
+    )
+    modify_words_probability: float = field(
+        default=0.15,
+        metadata={
+            "help": "The probability with which a word in the sentence needs to be replaced"
+        },
+    )
+    modify_words_range: str = field(
+        default='100-50000',
+        metadata={
+            "help": "Vocab range to sample from."
         },
     )    
 
@@ -324,6 +346,9 @@ def main():
         return result
 
     datasets = datasets.map(preprocess_function, batched=True, load_from_cache_file=not data_args.overwrite_cache)
+
+    # Make synthetic language modifications if necessary
+    datasets = modify_inputs(data_args, training_args, tokenized_datasets, task_name=data_args.task_name)
 
     train_dataset = datasets["train"]
     eval_dataset = datasets["validation_matched" if data_args.task_name == "mnli" else "validation"]
