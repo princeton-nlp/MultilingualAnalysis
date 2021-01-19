@@ -95,6 +95,9 @@ from .trainer_utils import (
 from .training_args import TrainingArguments
 from .utils import logging
 
+# Synthetic modifications
+from .synthetic_language_modifications_utils import WordBasedModifications
+
 
 _is_native_amp_available = False
 
@@ -253,7 +256,18 @@ class TrainerWordModifications:
         # Initialize the dataset
         self.train_dataset = train_dataset
 
+        # # Synthetic language modifications
+        # self.word_based_modifications = WordBasedModifications(self.data_args)
+        
+        # # Modify inputs if required
+        # if self.data_args.permute_vocabulary and self.train_dataset:
+        #     self.train_dataset = self.word_based_modifications.modify_inputs_permute_all(self.train_dataset)
+
         self.eval_dataset = eval_dataset
+
+        # # Modify inputs if required
+        # if self.data_args.permute_vocabulary and self.eval_dataset:
+        #     self.eval_dataset = self.word_based_modifications.modify_inputs_permute_all(self.eval_dataset)
 
         self.tokenizer = tokenizer
 
