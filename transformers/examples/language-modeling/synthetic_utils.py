@@ -102,7 +102,9 @@ def modify_inputs_words(data_args, training_args, datasets, task_name):
             replaced_dataset[dict_key] = modified_dataset[dict_key]
         return replaced_dataset
 
-def modify_inputs(data_args, training_args, datasets, task_name=None):
+def modify_inputs(data_args, training_args, datasets, task_name=None, task_type='mlm'):
+    if task_type == 'glue':
+        data_args.preprocessing_num_workers = None
     if data_args.permute_vocabulary:
         datasets = modify_inputs_permute(data_args, training_args, datasets, task_name)
     if data_args.modify_words:

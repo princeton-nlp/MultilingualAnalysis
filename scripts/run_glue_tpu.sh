@@ -11,7 +11,10 @@ python ../transformers/examples/xla_spawn.py --num_cores 1 ../transformers/examp
   --per_device_eval_batch_size 32 \
   --learning_rate 2e-5 \
   --num_train_epochs 3 \
-  --save_steps 5000 \
+  --save_steps 10000 \
   --overwrite_output_dir \
   --output_dir ../../../bucket/model_outputs/glue/$TASK_NAME$RUN_NO/ \
-  --run_name glue_$TASK_NAME
+  --run_name glue_$TASK_NAME \
+  --permute_vocabulary \
+  --vocab_permutation_file ../synthetic_language_files/word_based/configuration_files/permuted_vocab_seed_42_size_50265.json \
+  --word_modification replace
