@@ -40,7 +40,7 @@ def modify_inputs_permute(data_args, training_args, datasets):
     )
     
     # Step 3: Check if a modified dataset needs to be ADDED or if it should be REPLACED
-    if data_args.vocab_modification == 'add':
+    if data_args.word_modification == 'add':
         # Concatenate the two datasets
         combined_dataset = {}
         if training_args.do_train:
@@ -50,7 +50,7 @@ def modify_inputs_permute(data_args, training_args, datasets):
             combined_dataset['validation'] = concatenate_datasets([datasets['validation'], modified_dataset['validation']])
         return combined_dataset
 
-    elif data_args.vocab_modification == 'replace':
+    elif data_args.word_modification == 'replace':
         replaced_dataset = {}
         if training_args.do_train:
             replaced_dataset['train'] = modified_dataset['train']
@@ -60,60 +60,40 @@ def modify_inputs_permute(data_args, training_args, datasets):
         return replaced_dataset
         
 
-# class WordBasedModifications():
-#     def __init__(self, data_args):
-#         self.data_args = data_args
+def modify_inputs_words(data_args, training_args, datasets):
+    # Get the sampling range for modifying the words
+    sampling_range = [int(i) for i in data_args.modify_words_vocab_modification.strip().split('-')]
 
-#         # Function for modifying string json to integer json
-#         # https://stackoverflow.com/questions/1450957/pythons-json-module-converts-int-dictionary-keys-to-strings
-#         def jsonKV2int(x):
-#             if isinstance(x, dict):
-#                     return {int(k):(int(v) if isinstance(v, str) else v) for k,v in x.items()}
-#             return x
-        
-#         # Load the the vocabulary file
-#         if self.data_args.permute_vocabulary:
-#             with open(self.data_args.vocab_permutation_file, 'r') as fp:
-#                 self.vocab_mapping = json.load(fp, object_hook=jsonKV2int)
+    # Step 1: Create map function for modification
+    def map_function(examples):
+        for j in range(len(examples['input_ids'])):
+            # examples['input_ids'][j] = [examples['input_ids'][j][i] for i in range(len(examples['input_ids'][j])) if np.random.binomial(data_args.modify_words_probability) == 0 else np.random.randint(low=sampling_range[0], high=sampling_range[1])]
+            examples['input_ids'][j] = [examples['input_ids'][j][i] if (np.random.binomial(1, data_args.modify_words_probability) == 0 or (not sampling_range[0] <= examples['input_ids'][j][i] <= sampling_range[1])) else np.random.randint(low=sampling_range[0], high=sampling_range[1]) for i in range(len(examples['input_ids'][j]))]
+        return examples
 
-#     def modify_inputs_permute(self, inputs):
-#         # Information about inputs:
-#         # inputs['input_ids'].device is cpu
-#         # inputs['input_ids'] is torch.Tensor
+    # Create new dataset using map function
+    modified_dataset = datasets.map(
+        map_function,
+        batched=True,
+        num_proc=data_args.preprocessing_num_workers
+    )
+    
+    # Step 3: Check if a modified dataset needs to be ADDED or if it should be REPLACED
+    if data_args.word_modification == 'add':
+        # Concatenate the two datasets
+        combined_dataset = {}
+        if training_args.do_train:
+            combined_dataset['train'] = concatenate_datasets([datasets['train'], modified_dataset['train']])
 
-#         # TODO: Optimize this code. Currently using for loops
+        if training_args.do_eval:
+            combined_dataset['validation'] = concatenate_datasets([datasets['validation'], modified_dataset['validation']])
+        return combined_dataset
 
-#         # Check if all the inputs need to be modified
-#         if self.data_args.vocab_modification == 'random':
-#             # With a 50% probability, just return the original inputs
-#             if np.random.uniform() < 0.5:
-#                 return inputs
+    elif data_args.word_modification == 'replace':
+        replaced_dataset = {}
+        if training_args.do_train:
+            replaced_dataset['train'] = modified_dataset['train']
 
-
-#         # for i in range(inputs['input_ids'].shape[0]):
-#         #     for j in range(inputs['input_ids'].shape[1]):
-#         #         inputs['input_ids'][i,j] = self.vocab_mapping[inputs['input_ids'][i,j].item()]
-#         #         # if inputs['labels'][i,j] >= 0:
-#         #         #     inputs['labels'][i,j] = self.vocab_mapping[inputs['labels'][i,j].item()]
-#         for i in range(len(inputs['input_ids'])):
-#             inputs['input_ids'][i] = self.vocab_mapping[inputs['input_ids'][i]]               
-
-#         return inputs
-
-#     def modify_inputs_permute_all(self, train_dataset):
-#         """
-#         Modify all the inputs in the dataset
-#         """
-        
-#         length_of_dataset = len(train_dataset)
-        
-#         # Print statement
-#         print("Word-based transformation: Permuting the vocabulary")
-
-#         # Loop over all the sentences
-#         for i in tqdm(range(len(train_dataset))):
-#             modified_inputs = self.modify_inputs_permute(train_dataset[i])
-#             train_dataset[i]['input_ids'] = modified_inputs['input_ids']
-#             # train_dataset[i]['labels'] = modified_inputs['labels']
-
-#         return train_dataset
+        if training_args.do_eval:
+            replaced_dataset['validation'] = modified_dataset['validation']
+        return replaced_dataset        

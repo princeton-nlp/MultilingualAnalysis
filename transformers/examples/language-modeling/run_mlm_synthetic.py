@@ -46,7 +46,7 @@ from transformers import (
 from transformers.trainer_utils import is_main_process
 
 # Synthetic languages
-from synthetic_utils import modify_inputs_permute
+from synthetic_utils import modify_inputs_permute, modify_inputs_words
 
 logger = logging.getLogger(__name__)
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_MASKED_LM_MAPPING.keys())
@@ -141,6 +141,7 @@ class DataTrainingArguments:
             "If False, will pad the samples dynamically when batching to the maximum length in the batch."
         },
     )
+    # Permute the vocabulary
     permute_vocabulary: bool = field(
         default=False,
         metadata={
@@ -153,10 +154,29 @@ class DataTrainingArguments:
             "help": "File which contains the mapping from the old vocabulary file to the new one. Global names are preferred"
         },
     )
-    vocab_modification: str = field(
+    word_modification: str = field(
         default='all',
         metadata={
             "help": "all/random||add/replace"
+        },
+    )
+    # Add, delete, or modify words
+    modify_words: bool = field(
+        default=False,
+        metadata={
+            "help": "Randomly replace words with a random word."
+        },
+    )
+    modify_words_probability: float = field(
+        default=0.15,
+        metadata={
+            "help": "The probability with which a word in the sentence needs to be replaced"
+        },
+    )
+    modify_words_vocab_modification: str = field(
+        default='100-50000',
+        metadata={
+            "help": "Vocab range to sample from."
         },
     )    
 
@@ -383,6 +403,8 @@ def main():
     # Make synthetic language modifications if necessary
     if data_args.permute_vocabulary:
         tokenized_datasets = modify_inputs_permute(data_args, training_args, tokenized_datasets)
+    if data_args.modify_words:
+        tokenized_datasets = modify_inputs_words(data_args, training_args, tokenized_datasets)
 
     # Data collator
     # This one will take care of randomly masking the tokens.
