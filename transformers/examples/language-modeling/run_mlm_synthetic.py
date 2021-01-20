@@ -46,7 +46,7 @@ from transformers import (
 from transformers.trainer_utils import is_main_process
 
 # Synthetic languages
-from synthetic_utils import modify_inputs
+from transformers import modify_inputs_synthetic
 
 logger = logging.getLogger(__name__)
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_MASKED_LM_MAPPING.keys())
@@ -401,7 +401,7 @@ def main():
         )
 
     # Make synthetic language modifications if necessary
-    tokenized_datasets = modify_inputs(data_args, training_args, tokenized_datasets)
+    tokenized_datasets = modify_inputs_synthetic(data_args, training_args, tokenized_datasets)
 
     # Data collator
     # This one will take care of randomly masking the tokens.

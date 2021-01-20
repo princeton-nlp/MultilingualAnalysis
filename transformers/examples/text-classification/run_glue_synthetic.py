@@ -42,7 +42,7 @@ from transformers import (
 from transformers.trainer_utils import is_main_process
 
 # Synthetic languages
-from synthetic_utils import modify_inputs
+from transformers import modify_inputs_synthetic
 
 task_to_keys = {
     "cola": ("sentence", None),
@@ -348,7 +348,7 @@ def main():
     datasets = datasets.map(preprocess_function, batched=True, load_from_cache_file=not data_args.overwrite_cache)
 
     # Make synthetic language modifications if necessary
-    datasets = modify_inputs(data_args, training_args, datasets, task_name=data_args.task_name, task_type='glue')
+    datasets = modify_inputs_synthetic(data_args, training_args, datasets, task_name=data_args.task_name, task_type='glue')
 
     train_dataset = datasets["train"]
     eval_dataset = datasets["validation_matched" if data_args.task_name == "mnli" else "validation"]
