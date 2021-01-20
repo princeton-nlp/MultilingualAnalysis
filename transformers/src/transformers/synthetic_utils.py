@@ -43,22 +43,18 @@ def modify_inputs_permute(data_args, training_args, datasets, task_name):
     if data_args.word_modification == 'add':
         # Concatenate the two datasets
         combined_dataset = {}
-        if training_args.do_train:
-            combined_dataset['train'] = concatenate_datasets([datasets['train'], modified_dataset['train']])
 
-        if training_args.do_eval:
-            dict_key = "validation_matched" if task_name == "mnli" else "validation"
-            combined_dataset[dict_key] = concatenate_datasets([datasets[dict_key], modified_dataset[dict_key]])
+        for key in datasets.keys():
+            combined_dataset[key] = concatenate_datasets([datasets[key], modified_dataset[key]])
+          
         return combined_dataset
 
     elif data_args.word_modification == 'replace':
         replaced_dataset = {}
-        if training_args.do_train:
-            replaced_dataset['train'] = modified_dataset['train']
 
-        if training_args.do_eval:
-            dict_key = "validation_matched" if task_name == "mnli" else "validation"
-            replaced_dataset[dict_key] = modified_dataset[dict_key]
+        for key in modified_dataset.keys():
+            replaced_dataset[key] = modified_dataset[key]
+            
         return replaced_dataset
         
 
@@ -84,22 +80,18 @@ def modify_inputs_words(data_args, training_args, datasets, task_name):
     if data_args.word_modification == 'add':
         # Concatenate the two datasets
         combined_dataset = {}
-        if training_args.do_train:
-            combined_dataset['train'] = concatenate_datasets([datasets['train'], modified_dataset['train']])
 
-        if training_args.do_eval:
-            dict_key = "validation_matched" if task_name == "mnli" else "validation"
-            combined_dataset[dict_key] = concatenate_datasets([datasets[dict_key], modified_dataset[dict_key]])
+        for key in datasets.keys():
+            combined_dataset[key] = concatenate_datasets([datasets[key], modified_dataset[key]])
+        
         return combined_dataset
 
     elif data_args.word_modification == 'replace':
         replaced_dataset = {}
-        if training_args.do_train:
-            replaced_dataset['train'] = modified_dataset['train']
 
-        if training_args.do_eval:
-            dict_key = "validation_matched" if task_name == "mnli" else "validation"
-            replaced_dataset[dict_key] = modified_dataset[dict_key]
+        for key in modified_dataset.keys():
+            replaced_dataset[key] = modified_dataset[key]
+            
         return replaced_dataset
 
 def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm'):

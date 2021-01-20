@@ -352,7 +352,7 @@ def main():
 
     train_dataset = datasets["train"]
     eval_dataset = datasets["validation_matched" if data_args.task_name == "mnli" else "validation"]
-    if data_args.task_name is not None:
+    if data_args.task_name is not None and training_args.do_predict:
         test_dataset = datasets["test_matched" if data_args.task_name == "mnli" else "test"]
 
     # Log a few random samples from the training set:
