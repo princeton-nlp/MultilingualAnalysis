@@ -1,7 +1,7 @@
 export TASK_NAME=mnli
 export RUN_NO=_1
 
-python ../transformers/examples/xla_spawn.py --num_cores 1 ../transformers/examples/text-classification/run_glue.py \
+python ../transformers/examples/xla_spawn.py --num_cores 1 ../transformers/examples/text-classification/run_glue_synthetic.py \
   --model_name_or_path ../../../bucket/model_outputs/wikitext/mono_english/ \
   --task_name $TASK_NAME \
   --do_train \
