@@ -1,8 +1,8 @@
 export TASK_NAME=mnli
-export RUN_NO=_2
+export RUN_NO=_permute
 
 python ../transformers/examples/xla_spawn.py --num_cores 1 ../transformers/examples/text-classification/run_glue_synthetic.py \
-  --model_name_or_path ../../../bucket/model_outputs/wikitext/mono_english/ \
+  --model_name_or_path ../../../bucket/model_outputs/glue/$TASK_NAME$RUN_NO/ \
   --task_name $TASK_NAME \
   --do_eval \
   --max_seq_length 128 \
