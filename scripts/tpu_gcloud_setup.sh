@@ -46,6 +46,9 @@ function RestartVM {
     # export TPU_IP_ADDRESS=10.38.186.234
     # export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
     cd source_code/Multilingual/transformers/
+    export WANDB_API_KEY="fc68097ba21d58900b072a1279cf3cf6d83eb0c6"
+    export WANDB_ENTITY="ameet-1997"
+    export WANDB_PROJECT="mutlilingual_word"
     
 }
 

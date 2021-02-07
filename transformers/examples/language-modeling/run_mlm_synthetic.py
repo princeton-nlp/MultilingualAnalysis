@@ -178,7 +178,14 @@ class DataTrainingArguments:
         metadata={
             "help": "Vocab range to sample from."
         },
-    )    
+    )
+    # Invert the word-order
+    invert_word_order: bool = field(
+        default=False,
+        metadata={
+            "help": "Invert each sentence"
+        },
+    )
 
     def __post_init__(self):
         if self.dataset_name is None and self.train_file is None and self.validation_file is None:
