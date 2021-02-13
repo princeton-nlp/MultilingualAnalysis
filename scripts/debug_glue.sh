@@ -15,6 +15,5 @@ python -m pdb ../transformers/examples/text-classification/run_glue_synthetic.py
   --overwrite_output_dir \
   --output_dir ../../data/model_outputs/glue/debug/$TASK_NAME$RUN_NO/ \
   --run_name glue_$TASK_NAME \
-  --permute_vocabulary \
-  --vocab_permutation_file ../synthetic_language_files/word_based/configuration_files/permuted_vocab_seed_42_size_50265.json \
+  --invert_word_order \
   --word_modification replace

@@ -7,6 +7,7 @@ import torch
 import numpy as np
 from tqdm import tqdm
 from datasets import concatenate_datasets
+from copy import deepcopy
 
 def create_modified_dataset(data_args, map_function, datasets):
     # Create new dataset using map function
@@ -34,6 +35,7 @@ def create_modified_dataset(data_args, map_function, datasets):
             
         return replaced_dataset    
 
+
 def modify_inputs_permute(data_args, training_args, datasets, task_name):
     # Step 1: Load the vocab mapping
     # Function for modifying string json to integer json
@@ -60,31 +62,6 @@ def modify_inputs_permute(data_args, training_args, datasets, task_name):
 
     # Step 3: Return modified dataset
     return create_modified_dataset(data_args, map_function, datasets)
-
-    # # Create new dataset using map function
-    # modified_dataset = datasets.map(
-    #     map_function,
-    #     batched=True,
-    #     num_proc=data_args.preprocessing_num_workers
-    # )
-    
-    # # Step 3: Check if a modified dataset needs to be ADDED or if it should be REPLACED
-    # if data_args.word_modification == 'add':
-    #     # Concatenate the two datasets
-    #     combined_dataset = {}
-
-    #     for key in datasets.keys():
-    #         combined_dataset[key] = concatenate_datasets([datasets[key], modified_dataset[key]])
-          
-    #     return combined_dataset
-
-    # elif data_args.word_modification == 'replace':
-    #     replaced_dataset = {}
-
-    #     for key in modified_dataset.keys():
-    #         replaced_dataset[key] = modified_dataset[key]
-            
-    #     return replaced_dataset
         
 
 def modify_inputs_words(data_args, training_args, datasets, task_name):
@@ -99,43 +76,42 @@ def modify_inputs_words(data_args, training_args, datasets, task_name):
         return examples
 
     # Step 2: Return modified dataset
-    return create_modified_dataset(data_args, map_function, datasets)        
+    return create_modified_dataset(data_args, map_function, datasets)
 
-    # # Create new dataset using map function
-    # modified_dataset = datasets.map(
-    #     map_function,
-    #     batched=True,
-    #     num_proc=data_args.preprocessing_num_workers
-    # )
-    
-    # # Step 3: Check if a modified dataset needs to be ADDED or if it should be REPLACED
-    # if data_args.word_modification == 'add':
-    #     # Concatenate the two datasets
-    #     combined_dataset = {}
-
-    #     for key in datasets.keys():
-    #         combined_dataset[key] = concatenate_datasets([datasets[key], modified_dataset[key]])
-        
-    #     return combined_dataset
-
-    # elif data_args.word_modification == 'replace':
-    #     replaced_dataset = {}
-
-    #     for key in modified_dataset.keys():
-    #         replaced_dataset[key] = modified_dataset[key]
-            
-    #     return replaced_dataset
 
 def modify_inputs_invert(data_args, training_args, datasets, task_name):        
     # Check the arguments
     assert data_args.word_modification == 'add' or data_args.word_modification == 'replace', "Illegal option for argument word_modification"
 
-    # Step 1: Create a modified dataset
-    # Map function for datasets.map
+    # TODO: </s> index is hard coded here. Pull it from the tokenizer instead.
+    # TODO: pad_index is hard coded here. Pull it from the tokenizer instead.
+    
     def map_function(examples):
+        def reverse_list(s):
+            s.reverse()
+            return s
+        def reverse_substr(sent_indices):
+            temp_sent_indices = deepcopy(sent_indices)
+            start_idx = 0
+            current_idx = 0
+
+            sentence_length = len(sent_indices)
+
+            for i in range(sentence_length):
+                if (sent_indices[i] in [0, 2]) or (i == (sentence_length - 1)):
+                    # flip sentence on start_idx, i
+                    if i > start_idx:
+                        if (i == (sentence_length - 1)) and (not (sent_indices[i] in [0, 2])):
+                            sent_indices[start_idx: i+1] = reverse_list(temp_sent_indices[start_idx: i+1])
+                        else:
+                            sent_indices[start_idx: i] = reverse_list(temp_sent_indices[start_idx: i])
+                    start_idx = i+1
+            return sent_indices
+
         for j in range(len(examples['input_ids'])):
             example_length = len(examples['input_ids'][j])
-            examples['input_ids'][j] = [examples['input_ids'][j][example_length - i - 1] if examples['input_ids'][j][i] >= 3 else examples['input_ids'][j][i] for i in range(example_length)]
+            modified_examples = reverse_substr(examples['input_ids'][j])
+            examples['input_ids'][j] = [modified_examples[i] for i in range(example_length)]
         return examples
 
     # Step 2: Return modified dataset
