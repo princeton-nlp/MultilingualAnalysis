@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## February 2021
+1. Modified `modify_inputs_invert` function to work both with MLM and MNLI.
 1. Added function `modify_inputs_invert` in `synthetic_utils.py` to invert the sentence (Dufter et al.).
 
 ## January 2021

@@ -39,7 +39,6 @@ function MakeTPUs {
 
 function RestartVM {
     conda activate torch-xla-1.6
-    # export GOOGLE_APPLICATION_CREDENTIALS="/home/asd/attention-guidance-35b5bc1b0d0d.json"
     gcsfuse --implicit-dirs --debug_fuse multilingual-1  bucket/
     export VERSION=1.6
     gcloud compute tpus list --zone=europe-west4-a
@@ -49,7 +48,6 @@ function RestartVM {
     export WANDB_API_KEY="fc68097ba21d58900b072a1279cf3cf6d83eb0c6"
     export WANDB_ENTITY="ameet-1997"
     export WANDB_PROJECT="mutlilingual_word"
-    
 }
 
 function Wandb {
