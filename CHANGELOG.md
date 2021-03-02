@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
+## March 2021
+1. Added `text-classification/run_xnli_synthetic.py` for handling synthetic modifications with XNLI. Check `scripts` folder for examples.
+
 ## February 2021
 1. Modified `modify_inputs_invert` function to work both with MLM and MNLI.
 1. Added function `modify_inputs_invert` in `synthetic_utils.py` to invert the sentence (Dufter et al.).
