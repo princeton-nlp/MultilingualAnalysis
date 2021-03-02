@@ -36,12 +36,15 @@ from transformers import (
     EvalPrediction,
     HfArgumentParser,
     Trainer,
+    TrainerWordModifications,
     TrainingArguments,
     default_data_collator,
     set_seed,
 )
 from transformers.trainer_utils import get_last_checkpoint, is_main_process
 
+# Synthetic languages
+from transformers import modify_inputs_synthetic
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +78,51 @@ class DataTrainingArguments:
     )
     server_ip: Optional[str] = field(default=None, metadata={"help": "For distant debugging."})
     server_port: Optional[str] = field(default=None, metadata={"help": "For distant debugging."})
+    # Permute the vocabulary
+    permute_vocabulary: bool = field(
+        default=False,
+        metadata={
+            "help": "Whether to make the word based synthetic language which permutes the vocabulary."
+        },
+    )
+    vocab_permutation_file: str = field(
+        default=None,
+        metadata={
+            "help": "File which contains the mapping from the old vocabulary file to the new one. Global names are preferred"
+        },
+    )
+    word_modification: str = field(
+        default='all',
+        metadata={
+            "help": "all/random||add/replace"
+        },
+    )
+    # Add, delete, or modify words
+    modify_words: bool = field(
+        default=False,
+        metadata={
+            "help": "Randomly replace words with a random word."
+        },
+    )
+    modify_words_probability: float = field(
+        default=0.15,
+        metadata={
+            "help": "The probability with which a word in the sentence needs to be replaced"
+        },
+    )
+    modify_words_range: str = field(
+        default='100-50000',
+        metadata={
+            "help": "Vocab range to sample from."
+        },
+    )
+    # Invert the word-order
+    invert_word_order: bool = field(
+        default=False,
+        metadata={
+            "help": "Invert each sentence"
+        },
+    )    
 
 
 @dataclass
@@ -245,6 +293,10 @@ def main():
         preprocess_function, batched=True, load_from_cache_file=not data_args.overwrite_cache
     )
 
+    # Make synthetic language modifications if necessary
+    train_dataset = modify_inputs_synthetic(data_args, training_args, train_dataset, task_name=None, task_type='xnli')
+    eval_dataset = modify_inputs_synthetic(data_args, training_args, eval_dataset, task_name=None, task_type='xnli')
+
     # Log a few random samples from the training set:
     for index in random.sample(range(len(train_dataset)), 3):
         logger.info(f"Sample {index} of the training set: {train_dataset[index]}.")
@@ -268,9 +320,10 @@ def main():
         data_collator = None
 
     # Initialize our Trainer
-    trainer = Trainer(
+    trainer = TrainerWordModifications(
         model=model,
         args=training_args,
+        data_args=data_args,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset if training_args.do_eval else None,
         compute_metrics=compute_metrics,

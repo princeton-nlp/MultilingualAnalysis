@@ -19,21 +19,29 @@ def create_modified_dataset(data_args, map_function, datasets):
     
     # Step 3: Check if a modified dataset needs to be ADDED or if it should be REPLACED
     if data_args.word_modification == 'add':
-        # Concatenate the two datasets
-        combined_dataset = {}
+        # Check if there are multiple datasets or if it's a single dataset
+        if 'keys' in dir(datasets):
+            # Concatenate the two datasets
+            combined_dataset = {}
 
-        for key in datasets.keys():
-            combined_dataset[key] = concatenate_datasets([datasets[key], modified_dataset[key]])
-          
-        return combined_dataset
+            for key in datasets.keys():
+                combined_dataset[key] = concatenate_datasets([datasets[key], modified_dataset[key]])
+            
+            return combined_dataset
+        else:
+            return concatenate_datasets([datasets, modified_dataset])
 
     elif data_args.word_modification == 'replace':
-        replaced_dataset = {}
+        # Check if there are multiple datasets or if it's a single dataset
+        if 'keys' in dir(datasets):
+            replaced_dataset = {}
 
-        for key in modified_dataset.keys():
-            replaced_dataset[key] = modified_dataset[key]
-            
-        return replaced_dataset    
+            for key in modified_dataset.keys():
+                replaced_dataset[key] = modified_dataset[key]
+                
+            return replaced_dataset
+        else:
+            return modified_dataset
 
 
 def modify_inputs_permute(data_args, training_args, datasets, task_name):
@@ -118,7 +126,7 @@ def modify_inputs_invert(data_args, training_args, datasets, task_name):
     return create_modified_dataset(data_args, map_function, datasets)       
 
 def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm'):
-    if task_type == 'glue':
+    if task_type == 'glue' or task_type == 'xnli':
         data_args.preprocessing_num_workers = None
     if data_args.permute_vocabulary:
         datasets = modify_inputs_permute(data_args, training_args, datasets, task_name)
