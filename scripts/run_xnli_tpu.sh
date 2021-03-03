@@ -5,6 +5,7 @@ export RUN_NO=_invert
 python ../transformers/examples/xla_spawn.py --num_cores 1 ../transformers/examples/text-classification/run_xnli_synthetic.py \
   --model_name_or_path bert-base-multilingual-cased \
   --language fr \
+  --cache_dir=../../../bucket/cache \
   --do_train \
   --do_eval \
   --max_seq_length 128 \

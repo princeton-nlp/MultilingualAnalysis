@@ -13,6 +13,7 @@ python -m pdb ../transformers/examples/text-classification/run_glue_synthetic.py
   --num_train_epochs 1 \
   --save_steps 10000 \
   --overwrite_output_dir \
+  --cache_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/transformer_models \
   --output_dir ../../data/model_outputs/glue/debug/$TASK_NAME$RUN_NO/ \
   --run_name glue_$TASK_NAME \
   --invert_word_order \

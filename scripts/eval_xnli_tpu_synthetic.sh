@@ -5,6 +5,7 @@ export RUN_NO=_invert
 python ../transformers/examples/xla_spawn.py --num_cores 1 ../transformers/examples/text-classification/run_xnli_synthetic.py \
   --model_name_or_path ../../../bucket/model_outputs/xnli/$TASK_NAME$RUN_NO/ \
   --language fr \
+  --cache_dir=../../../bucket/cache \
   --do_eval \
   --max_seq_length 128 \
   --per_device_train_batch_size 32 \

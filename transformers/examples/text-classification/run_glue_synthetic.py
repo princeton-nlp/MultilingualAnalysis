@@ -96,6 +96,11 @@ class DataTrainingArguments:
     validation_file: Optional[str] = field(
         default=None, metadata={"help": "A csv or a json file containing the validation data."}
     )
+    data_cache_dir: Optional[str] = field(
+        default=None,
+        metadata={"help": "Cache for training and validation data."},
+    )
+
     # Permute the vocabulary
     permute_vocabulary: bool = field(
         default=False,
@@ -241,16 +246,16 @@ def main():
     # download the dataset.
     if data_args.task_name is not None:
         # Downloading and loading a dataset from the hub.
-        datasets = load_dataset("glue", data_args.task_name)
+        datasets = load_dataset("glue", data_args.task_name, cache_dir=model_args.cache_dir)
     elif data_args.train_file.endswith(".csv"):
         # Loading a dataset from local csv files
         datasets = load_dataset(
-            "csv", data_files={"train": data_args.train_file, "validation": data_args.validation_file}
+            "csv", data_files={"train": data_args.train_file, "validation": data_args.validation_file}, cache_dir=model_args.cache_dir
         )
     else:
         # Loading a dataset from local json files
         datasets = load_dataset(
-            "json", data_files={"train": data_args.train_file, "validation": data_args.validation_file}
+            "json", data_files={"train": data_args.train_file, "validation": data_args.validation_file}, cache_dir=model_args.cache_dir
         )
     # See more about loading any type of standard or custom dataset at
     # https://huggingface.co/docs/datasets/loading_datasets.html.

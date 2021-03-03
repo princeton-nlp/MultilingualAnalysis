@@ -66,6 +66,10 @@ class DataTrainingArguments:
             "than this will be truncated, sequences shorter will be padded."
         },
     )
+    data_cache_dir: Optional[str] = field(
+        default=None,
+        metadata={"help": "Cache for training and validation data."},
+    )    
     overwrite_cache: bool = field(
         default=False, metadata={"help": "Overwrite the cached preprocessed datasets or not."}
     )
