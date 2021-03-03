@@ -10,9 +10,19 @@
 ### Storage
 1. Mounting a storage bucket as a file system [link](https://cloud.google.com/storage/docs/gcs-fuse#using)
 1. `gsutil` for handling google storage buckets [link](https://cloud.google.com/storage/docs/quickstart-gsutil). [Link](https://cloud.google.com/sdk/docs#linux) for installing it
-1. Command for copying data - `./google-cloud-sdk/bin/gsutil cp -r ../BERT_Embeddings_Test/BERT_Embeddings_Test/word2vec_train/wiki_bookscorpus/ gs://attn-guid-europe`
+1. Command for copying data - `./google-cloud-sdk/bin/gsutil cp -r ../BERT_Embeddings_Test/BERT_Embeddings_Test/word2vec_train/wiki_bookscorpus/ gs://attn-guid-europe`. `google-cloud-sdk` is in `/n/fs/nlp-asd/asd/asd/cloud`.
 
 ### Set up TPUs
 1. Tutorial for running transformers with TPUs - [link](https://cloud.google.com/tpu/docs/tutorials/transformer-pytorch)
 1. Alternate link from Google's documentation - [link](https://cloud.google.com/tpu/docs/creating-deleting-tpus#us)
 1. Link for checking status and deleting TPUs - [link](https://cloud.google.com/tpu/docs/creating-deleting-tpus#ctpu_1)
+
+### SSH details
+1. Your identification has been saved in /n/fs/grad/asd/.ssh/google_compute_engine.
+1. Your public key has been saved in /n/fs/grad/asd/.ssh/google_compute_engine.pub.
+
+### Using GCloud SDK with your terminal
+1. Initialize configuration along with default project, region, and zone - `./google-cloud-sdk/bin/gcloud init`
+1. Connect to a VM - `./google-cloud-sdk/bin/gcloud compute ssh --project=attention-guidance --zone=europe-west4-a mult-p-1`
+1. Start a VM -`./google-cloud-sdk/bin/gcloud compute instances start --project=attention-guidance --zone=europe-west4-a  mult-p-1` 
+1. Stop a VM - `./google-cloud-sdk/bin/gcloud compute instances stop --project=attention-guidance --zone=europe-west4-a  mult-p-1`
