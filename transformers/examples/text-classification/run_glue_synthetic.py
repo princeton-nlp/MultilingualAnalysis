@@ -246,16 +246,16 @@ def main():
     # download the dataset.
     if data_args.task_name is not None:
         # Downloading and loading a dataset from the hub.
-        datasets = load_dataset("glue", data_args.task_name, cache_dir=model_args.cache_dir)
+        datasets = load_dataset("glue", data_args.task_name)
     elif data_args.train_file.endswith(".csv"):
         # Loading a dataset from local csv files
         datasets = load_dataset(
-            "csv", data_files={"train": data_args.train_file, "validation": data_args.validation_file}, cache_dir=model_args.cache_dir
+            "csv", data_files={"train": data_args.train_file, "validation": data_args.validation_file}
         )
     else:
         # Loading a dataset from local json files
         datasets = load_dataset(
-            "json", data_files={"train": data_args.train_file, "validation": data_args.validation_file}, cache_dir=model_args.cache_dir
+            "json", data_files={"train": data_args.train_file, "validation": data_args.validation_file}
         )
     # See more about loading any type of standard or custom dataset at
     # https://huggingface.co/docs/datasets/loading_datasets.html.

@@ -235,11 +235,11 @@ def main():
     # download the dataset.
     # Downloading and loading xnli dataset from the hub.
     if model_args.train_language is None:
-        train_dataset = load_dataset("xnli", model_args.language, split="train", cache_dir=model_args.cache_dir)
+        train_dataset = load_dataset("xnli", model_args.language, split="train")
     else:
-        train_dataset = load_dataset("xnli", model_args.train_language, split="train", cache_dir=model_args.cache_dir)
+        train_dataset = load_dataset("xnli", model_args.train_language, split="train")
 
-    eval_dataset = load_dataset("xnli", model_args.language, split="validation", cache_dir=model_args.cache_dir)
+    eval_dataset = load_dataset("xnli", model_args.language, split="validation")
     # Labels
     label_list = train_dataset.features["label"].names
     num_labels = len(label_list)
