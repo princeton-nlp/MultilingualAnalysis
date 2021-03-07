@@ -1645,6 +1645,27 @@ class TrainerWordModifications:
             model = model
         return model
 
+    def metrics_format(self, metrics: Dict[str, float]) -> Dict[str, float]:
+        """
+        Reformat Trainer metrics values to a human-readable format
+        Args:
+            metrics (:obj:`Dict[str, float]`):
+                The metrics returned from train/evaluate/predict
+        Returns:
+            metrics (:obj:`Dict[str, float]`): The reformatted metrics
+        """
+
+        metrics_copy = metrics.copy()
+        for k, v in metrics_copy.items():
+            if "_mem_" in k:
+                metrics_copy[k] = f"{ v >> 20 }MB"
+            elif k == "total_flos":
+                metrics_copy[k] = f"{ int(v) >> 30 }GF"
+            elif type(metrics_copy[k]) == float:
+                metrics_copy[k] = round(v, 4)
+
+        return metrics_copy        
+
     def log_metrics(self, split, metrics):
         """
         Log metrics in a specially formatted way
