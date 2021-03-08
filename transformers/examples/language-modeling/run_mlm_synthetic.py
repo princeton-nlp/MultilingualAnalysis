@@ -408,7 +408,7 @@ def main():
         )
 
     # Make synthetic language modifications if necessary
-    tokenized_datasets = modify_inputs_synthetic(data_args, training_args, tokenized_datasets)
+    tokenized_datasets = modify_inputs_synthetic(data_args, training_args, tokenized_datasets, tokenizer=tokenizer)
 
     # Data collator
     # This one will take care of randomly masking the tokens.

@@ -26,6 +26,7 @@ import time
 import warnings
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+import json
 
 
 # Integrations must be imported before ML frameworks:

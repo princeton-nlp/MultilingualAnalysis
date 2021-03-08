@@ -298,8 +298,8 @@ def main():
     )
 
     # Make synthetic language modifications if necessary
-    train_dataset = modify_inputs_synthetic(data_args, training_args, train_dataset, task_name=None, task_type='xnli')
-    eval_dataset = modify_inputs_synthetic(data_args, training_args, eval_dataset, task_name=None, task_type='xnli')
+    train_dataset = modify_inputs_synthetic(data_args, training_args, train_dataset, task_name=None, task_type='xnli', tokenizer=tokenizer)
+    eval_dataset = modify_inputs_synthetic(data_args, training_args, eval_dataset, task_name=None, task_type='xnli', tokenizer=tokenizer)
 
     # Log a few random samples from the training set:
     for index in random.sample(range(len(train_dataset)), 3):

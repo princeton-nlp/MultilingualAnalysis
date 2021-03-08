@@ -2,7 +2,7 @@ export TASK_NAME=xnli
 export RUN_NO=_1
 
 python -m pdb ../transformers/examples/text-classification/run_xnli_synthetic.py \
-  --model_name_or_path bert-base-multilingual-cased \
+  --model_name_or_path camembert-base \
   --language fr \
   --do_train \
   --do_eval \
@@ -16,4 +16,4 @@ python -m pdb ../transformers/examples/text-classification/run_xnli_synthetic.py
   --output_dir ../../data/model_outputs/xnli/debug/$TASK_NAME$RUN_NO/ \
   --cache_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/transformer_models \
   --invert_word_order \
-  --word_modification add
+  --word_modification replace

@@ -87,7 +87,7 @@ def modify_inputs_words(data_args, training_args, datasets, task_name):
     return create_modified_dataset(data_args, map_function, datasets)
 
 
-def modify_inputs_invert(data_args, training_args, datasets, task_name):        
+def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer=None):        
     # Check the arguments
     assert data_args.word_modification == 'add' or data_args.word_modification == 'replace', "Illegal option for argument word_modification"
 
@@ -105,11 +105,18 @@ def modify_inputs_invert(data_args, training_args, datasets, task_name):
 
             sentence_length = len(sent_indices)
 
+            # Indices to consider for [SEP] and [CLS]
+            if tokenizer:
+                sep_cls = [tokenizer.convert_tokens_to_ids(tokenizer.cls_token), tokenizer.convert_tokens_to_ids(tokenizer.sep_token)]
+            else:
+                # If tokenizer is not passed, then use the default RoBERTa tokenizer tokens
+                sep_cls = [0, 2]
+
             for i in range(sentence_length):
-                if (sent_indices[i] in [0, 2]) or (i == (sentence_length - 1)):
+                if (sent_indices[i] in sep_cls) or (i == (sentence_length - 1)):
                     # flip sentence on start_idx, i
                     if i > start_idx:
-                        if (i == (sentence_length - 1)) and (not (sent_indices[i] in [0, 2])):
+                        if (i == (sentence_length - 1)) and (not (sent_indices[i] in sep_cls)):
                             sent_indices[start_idx: i+1] = reverse_list(temp_sent_indices[start_idx: i+1])
                         else:
                             sent_indices[start_idx: i] = reverse_list(temp_sent_indices[start_idx: i])
@@ -125,7 +132,7 @@ def modify_inputs_invert(data_args, training_args, datasets, task_name):
     # Step 2: Return modified dataset
     return create_modified_dataset(data_args, map_function, datasets)       
 
-def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm'):
+def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm', tokenizer=None):
     if task_type == 'glue' or task_type == 'xnli':
         data_args.preprocessing_num_workers = None
     if data_args.permute_vocabulary:
@@ -133,6 +140,6 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
     if data_args.modify_words:
         datasets = modify_inputs_words(data_args, training_args, datasets, task_name)
     if data_args.invert_word_order:
-        datasets = modify_inputs_invert(data_args, training_args, datasets, task_name)
+        datasets = modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer)
 
     return datasets
