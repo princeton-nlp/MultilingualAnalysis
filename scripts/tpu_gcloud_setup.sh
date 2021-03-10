@@ -50,6 +50,19 @@ function RestartVM {
     export WANDB_PROJECT="mutlilingual_word"
 }
 
+function Danqi_RestartVM {
+    conda activate torch-xla-1.6
+    gcsfuse --implicit-dirs --debug_fuse multilingual-2  bucket/
+    export VERSION=1.6
+    gcloud compute tpus list --zone=us-central1-f
+    # export TPU_IP_ADDRESS=10.38.186.234
+    # export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
+    cd source_code/Multilingual/transformers/
+    export WANDB_API_KEY="c506f6f94ffd4e28768ff0cf1637bd2a28902a32"
+    export WANDB_ENTITY="danqi7"
+    export WANDB_PROJECT="mutlilingual_random"
+}
+
 function Wandb {
     # wandb login
     export WANDB_API_KEY="fc68097ba21d58900b072a1279cf3cf6d83eb0c6"
