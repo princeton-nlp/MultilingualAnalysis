@@ -3,7 +3,7 @@ export RUN_NO=_random
 export OUTPUT_DIR=../../../bucket/model_outputs/glue/$TASK_NAME$RUN_NO/
 
 # Random: --from_scratch + --config_name + --tokenizer_name
-python ../transformers/examples/xla_spawn.py --num_cores 1 python ../transformers/examples/text-classification/run_glue.py \
+python ../transformers/examples/xla_spawn.py --num_cores 1 ../transformers/examples/text-classification/run_glue.py \
   --from_scratch \
   --config_name roberta-base \
   --tokenizer_name roberta-base \

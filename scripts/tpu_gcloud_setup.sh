@@ -54,6 +54,7 @@ function Danqi_RestartVM {
     conda activate torch-xla-1.6
     gcsfuse --implicit-dirs --debug_fuse multilingual-2  bucket/
     export VERSION=1.6
+    gcloud compute tpus create tpu3 --zone=us-central1-f --network=default --version=pytorch-1.6 --accelerator-type=v2-8
     gcloud compute tpus list --zone=us-central1-f
     # export TPU_IP_ADDRESS=10.38.186.234
     # export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
