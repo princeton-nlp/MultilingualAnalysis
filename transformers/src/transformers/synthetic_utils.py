@@ -135,9 +135,9 @@ def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenize
 def modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer):
     # Should we modify special tokens? That is contained in boolean data_args.shift_special
     if data_args.shift_special:
-        special_tokens = [tokenizer.pad]
+        special_tokens = [tokenizer.pad_token_id]
     else:
-        special_tokens = [tokenizer.cls_token, tokenizer.sep_token, tokenizer.pad]
+        special_tokens = [tokenizer.cls_token_id, tokenizer.sep_token_id, tokenizer.pad_token_id]
 
     # Vocabulary size
     vocab_size = tokenizer.vocab_size
