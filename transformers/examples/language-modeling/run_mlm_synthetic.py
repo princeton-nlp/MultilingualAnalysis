@@ -47,6 +47,7 @@ from transformers.trainer_utils import is_main_process
 
 # Synthetic languages
 from transformers import modify_inputs_synthetic
+from transformers.synthetic_utils import modify_config
 
 logger = logging.getLogger(__name__)
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_MASKED_LM_MAPPING.keys())
@@ -186,6 +187,19 @@ class DataTrainingArguments:
             "help": "Invert each sentence"
         },
     )
+    # One-to-one mapping to a new vocabulary
+    one_to_one_mapping: bool = field(
+        default=False,
+        metadata={
+            "help": "Create a vocabulary with a one-to-one mapping with the new vocab, like in K. et al."
+        },
+    )
+    shift_special: bool = field(
+        default=False,
+        metadata={
+            "help": "When used with one-to-one mapping, also changes the [CLS] and [SEP] token. Does not change the PAD token."
+        },
+    )    
 
     def __post_init__(self):
         if self.dataset_name is None and self.train_file is None and self.validation_file is None:
@@ -308,6 +322,9 @@ def main():
             "You can do it from another script, save it, and load it from here, using --tokenizer_name."
         )
 
+    # Make modifications to config if necessary
+    config = modify_config(data_args, training_args, config)
+
     if model_args.model_name_or_path:
         model = AutoModelForMaskedLM.from_pretrained(
             model_args.model_name_or_path,
@@ -319,7 +336,9 @@ def main():
         logger.info("Training new model from scratch")
         model = AutoModelForMaskedLM.from_config(config)
 
-    model.resize_token_embeddings(len(tokenizer))
+    if not data_args.one_to_one_mapping:
+        # Don't resize the model token embeddings if we are making the one-to-one mapping modification
+        model.resize_token_embeddings(len(tokenizer))
 
     # Preprocessing the datasets.
     # First we tokenize all the texts.

@@ -146,6 +146,19 @@ class DataTrainingArguments:
             "help": "Invert each sentence"
         },
     )
+    # One-to-one mapping to a new vocabulary
+    one_to_one_mapping: bool = field(
+        default=False,
+        metadata={
+            "help": "Create a vocabulary with a one-to-one mapping with the new vocab, like in K. et al."
+        },
+    )
+    shift_special: bool = field(
+        default=False,
+        metadata={
+            "help": "When used with one-to-one mapping, also changes the [CLS] and [SEP] token."
+        },
+    )       
 
     def __post_init__(self):
         if self.task_name is not None:

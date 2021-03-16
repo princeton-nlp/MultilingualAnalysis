@@ -132,6 +132,25 @@ def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenize
     # Step 2: Return modified dataset
     return create_modified_dataset(data_args, map_function, datasets)       
 
+def modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer):
+    # Should we modify special tokens? That is contained in boolean data_args.shift_special
+    if data_args.shift_special:
+        special_tokens = [tokenizer.pad]
+    else:
+        special_tokens = [tokenizer.cls_token, tokenizer.sep_token, tokenizer.pad]
+
+    # Vocabulary size
+    vocab_size = tokenizer.vocab_size
+
+    # Step 1: Create map function for modification
+    def map_function(examples):
+        for j in range(len(examples['input_ids'])):
+            examples['input_ids'][j] = [examples['input_ids'][j][i] if (examples['input_ids'][j][i] in special_tokens) else (examples['input_ids'][j][i] + vocab_size)  for i in range(len(examples['input_ids'][j]))]
+        return examples
+
+    # Step 2: Return modified dataset
+    return create_modified_dataset(data_args, map_function, datasets)
+
 def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm', tokenizer=None):
     if task_type == 'glue' or task_type == 'xnli':
         data_args.preprocessing_num_workers = None
@@ -141,5 +160,14 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
         datasets = modify_inputs_words(data_args, training_args, datasets, task_name)
     if data_args.invert_word_order:
         datasets = modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer)
+    if data_args.one_to_one_mapping:
+        datasets = modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer)        
 
     return datasets
+
+def modify_config(data_args, training_args, config):
+    if data_args.one_to_one_mapping:
+        config.vocab_size = config.vocab_size * 2
+        return config
+    else:
+        return config
