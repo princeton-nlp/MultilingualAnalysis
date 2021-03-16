@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## March 2021
+1. Added `preprocessing/dependency_parsing/` for parsing corpus using `stanza`.
 1. Added `text-classification/run_xnli_synthetic.py` for handling synthetic modifications with XNLI. Check `scripts` folder for examples.
 
 ## February 2021

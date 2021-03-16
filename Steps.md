@@ -7,7 +7,7 @@
 ### Create vocabulary files
 1. `python create_tokenizer.py --file ../../../../BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.train.raw --store_files ../config/roberta_test/ --vocab_size 50000`
 
-### Syntax modifications
+### Galactic dependencies
 1. Example data for galactic dependencies is in `/n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/galactic/treebanks-V1.0/treebanks`
 
 ### Running code on TPUs
@@ -22,6 +22,9 @@
 1. Word modification TPU without `data_cache_dir` - `nohup   python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm_synthetic.py --train_file=../../../bucket/wikitext-103-raw/wiki.train.txt --validation_file=../../../bucket/wikitext-103-raw/wiki.valid.txt --cache_dir=../../../bucket/cache --output_dir=../../../bucket/model_outputs/wikitext/english_word_modification_095 --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --learning_rate 1e-4 --num_train_epochs 40 --warmup_steps 10000 --do_train --do_eval --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name word_modification_40 --modify_words --modify_words_probability 0.95 --word_modification add   &`
 1. Inverted word order - `nohup   python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm_synthetic.py --train_file=../../../bucket/wikitext-103-raw/wiki.train.txt --validation_file=../../../bucket/wikitext-103-raw/wiki.valid.txt --cache_dir=../../../bucket/cache --output_dir=../../../bucket/model_outputs/wikitext/english_word_modification_inverted --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --learning_rate 1e-4 --num_train_epochs 40 --warmup_steps 10000 --do_train --do_eval --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name inverted_sentence_40  --invert_word_order --word_modification add   &`
 1. Inverted order French - `nohup python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm_synthetic.py --output_dir=../../../bucket/model_outputs/french/french_inverted_warmup --model_type=roberta --config_name=camembert-base --tokenizer_name=camembert-base --num_train_epochs 40 --warmup_steps 10000 --learning_rate 1e-4  --do_train --do_eval  --train_file=../../../bucket/french_data/processed/fr_gutenberg/train.txt --validation_file=../../../bucket/french_data/processed/fr_gutenberg/valid.txt --cache_dir=../../../bucket/cache --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name inverted_french --invert_word_order --word_modification add &`
+
+### Dependency parse of the corpus
+1. Command for converting a corpus to CONLLU file (MLM) - `python convert_dataset_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.valid.raw --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english`
 
 ### Syntax modifications
 1. Monolingual model on English Conllu - `nohup python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm.py --output_dir=../../../bucket/model_outputs/wikitext/mono_english_syntax --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --num_train_epochs 2400 --do_train  --train_file=../../../bucket/syntax_modified_data/english_english.txt --run_name mono_english_syntax --save_steps 10000 --logging_steps 5 &`
