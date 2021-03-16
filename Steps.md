@@ -9,6 +9,7 @@
 
 ### Galactic dependencies
 1. Example data for galactic dependencies is in `/n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/galactic/treebanks-V1.0/treebanks`
+1. Converting a CONLLU file to a different word order - `GALACTIC_ROOT=$(pwd) bin/gd-translate --input ../../../../data/dependency_parse_data/english/dep_wiki.valid.raw --spec en~fr@N~hi@V`. Run from `preprocessing/dependency_parsing/gdtreebank`
 
 ### Running code on TPUs
 1. MLM RoBERTa-base - `nohup   python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm_synthetic.py --train_file=../../../bucket/wikitext-103-raw/wiki.train.txt --validation_file=../../../bucket/wikitext-103-raw/wiki.valid.txt --output_dir=../../../bucket/model_outputs/wikitext/mono_english_40 --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --learning_rate 1e-4 --num_train_epochs 20 --warmup_steps 10000 --do_train --do_eval --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name wikitext_mlm   &`

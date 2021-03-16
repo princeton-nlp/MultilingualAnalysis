@@ -1,0 +1,23 @@
+# sentence-tokens-src: From the AP comes this story :
+# sentence-tokens: this story From the AP comes :
+1	this	this	DET	DT	Number=Sing|PronType=Dem	2	det	_	_	sample.conllu:5	5	this
+2	story	story	NOUN	NN	Number=Sing	6	nsubj	_	_	sample.conllu:6	6	story
+3	From	from	ADP	IN	_	5	case	_	_	sample.conllu:1	1	From
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_	sample.conllu:2	2	the
+5	AP	AP	PROPN	NNP	Number=Sing	6	nmod	_	_	sample.conllu:3	3	AP
+6	comes	come	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_	sample.conllu:4	4	comes
+7	:	:	PUNCT	:	_	6	punct	_	_	sample.conllu:7	7	:
+
+# sentence-tokens-src: Every move Google makes brings this particular future closer .
+# sentence-tokens: Every move Google makes this future particular closer brings .
+1	Every	every	DET	DT	_	2	det	_	_	sample.conllu:9	1	Every
+2	move	move	NOUN	NN	Number=Sing	9	nsubj	_	_	sample.conllu:10	2	move
+3	Google	Google	PROPN	NNP	Number=Sing	4	nsubj	_	_	sample.conllu:11	3	Google
+4	makes	make	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	acl:relcl	_	_	sample.conllu:12	4	makes
+5	this	this	DET	DT	Number=Sing|PronType=Dem	6	det	_	_	sample.conllu:14	6	this
+6	future	future	NOUN	NN	Number=Sing	9	dobj	_	_	sample.conllu:16	8	future
+7	particular	particular	ADJ	JJ	Degree=Pos	6	amod	_	_	sample.conllu:15	7	particular
+8	closer	closer	ADV	RBR	Degree=Cmp	9	advmod	_	SpaceAfter=No	sample.conllu:17	9	closer
+9	brings	bring	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_	sample.conllu:13	5	brings
+10	.	.	PUNCT	.	_	9	punct	_	_	sample.conllu:18	10	.
+
