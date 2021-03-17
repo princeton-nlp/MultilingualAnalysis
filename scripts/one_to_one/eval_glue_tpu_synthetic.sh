@@ -1,5 +1,5 @@
 export TASK_NAME=mnli
-export RUN_NO=_invert
+export RUN_NO=_one_to_one
 
 python ../../transformers/examples/xla_spawn.py --num_cores 1 ../../transformers/examples/text-classification/run_glue_synthetic.py \
   --model_name_or_path ../../../../bucket/model_outputs/glue/$TASK_NAME$RUN_NO/ \
