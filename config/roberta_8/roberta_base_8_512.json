@@ -13,7 +13,7 @@
     "layer_norm_eps": 1e-05,
     "max_position_embeddings": 514,
     "model_type": "roberta",
-    "num_attention_heads": 12,
+    "num_attention_heads": 8,
     "num_hidden_layers": 8,
     "pad_token_id": 1,
     "type_vocab_size": 1,

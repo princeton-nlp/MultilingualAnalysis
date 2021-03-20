@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## March 2021
+1. Added an `experiments` folder to keep track of all the experiments being performed.
 1. Added `convert_dataset_to_sentences.py` in `preprocessing/dependency_parsing/`.
 1. Added `convert_conllu_to_corpus.py` in `preprocessing/dependency_parsing/`.
 1. Added `scripts/one_to_one` for GLUE and XNLI scripts for one-to-one mapping. Best to create folders for each kind of modification.

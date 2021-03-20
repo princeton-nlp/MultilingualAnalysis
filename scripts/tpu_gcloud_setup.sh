@@ -48,6 +48,7 @@ function RestartVM {
     export WANDB_API_KEY="fc68097ba21d58900b072a1279cf3cf6d83eb0c6"
     export WANDB_ENTITY="ameet-1997"
     export WANDB_PROJECT="mutlilingual_word"
+    export WANDB_PROJECT="mutlilingual_syntax"
 }
 
 function Wandb {
