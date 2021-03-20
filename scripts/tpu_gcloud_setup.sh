@@ -59,6 +59,11 @@ function Wandb {
     # Run name is specified using the --run_name argument
 }
 
+function GitHub {
+  # If you want your git credentials to be stored in plain text
+  git config --global credential.helper store
+}
+
 ###
 
 for arg in "$@"; do

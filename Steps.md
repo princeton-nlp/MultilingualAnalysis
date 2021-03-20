@@ -8,7 +8,7 @@
 1. `python create_tokenizer.py --file ../../../../BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.train.raw --store_files ../config/roberta_test/ --vocab_size 50000`
 
 ### Running code on TPUs
-1. MLM RoBERTa-base - `nohup   python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm_synthetic.py --train_file=../../../bucket/wikitext-103-raw/wiki.train.txt --validation_file=../../../bucket/wikitext-103-raw/wiki.valid.txt --output_dir=../../../bucket/model_outputs/wikitext/mono_english_40 --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --learning_rate 1e-4 --num_train_epochs 80 --warmup_steps 10000 --do_train --do_eval --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name wikitext_mlm   &`
+1. MLM RoBERTa-base - `nohup   python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm_synthetic.py --train_file=../../../bucket/wikitext-103-raw/wiki.train.txt --validation_file=../../../bucket/wikitext-103-raw/wiki.valid.txt --output_dir=../../../bucket/model_outputs/wikitext/mono_english_80 --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --learning_rate 1e-4 --num_train_epochs 80 --warmup_steps 10000 --do_train --do_eval --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name wikitext_mlm   &`
 1. MLM with own vocab - `nohup   python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm.py --train_file=../../../bucket/wikitext-103-raw/wiki.train.txt --validation_file=../../../bucket/wikitext-103-raw/wiki.valid.txt --output_dir=../../../bucket/model_outputs/wikitext/mono_english --model_type=roberta --config_name=roberta-base --tokenizer_name=../config/roberta_test --learning_rate 1e-4 --num_train_epochs 80 --warmup_steps 10000 --do_train --do_eval --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name wikitext_mlm   &`
 1. Monolingual French model - `nohup python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm_synthetic.py --output_dir=../../../bucket/model_outputs/french/mono_french_warmup --model_type=roberta --config_name=camembert-base --tokenizer_name=camembert-base --num_train_epochs 80 --warmup_steps 10000 --learning_rate 1e-4 --do_train --do_eval  --train_file=../../../bucket/french_data/processed/fr_gutenberg/train.txt --validation_file=../../../bucket/french_data/processed/fr_gutenberg/valid.txt --cache_dir=../../../bucket/cache --save_steps 10000 --logging_steps 50 --per_device_train_batch_size 16 --overwrite_output_dir --run_name monolingual_french &`
 
@@ -23,11 +23,21 @@
 
 ### Galactic dependencies
 1. Example data for galactic dependencies is in `/n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/galactic/treebanks-V1.0/treebanks`
-1. Converting a CONLLU file to a different word order - `GALACTIC_ROOT=$(pwd) bin/gd-translate --input ../../../../data/dependency_parse_data/english/dep_wiki.valid.raw --spec en~fr@N~hi@V`. Run from `preprocessing/dependency_parsing/gdtreebank`
+1. Converting a CONLLU file to a different word order - `GALACTIC_ROOT=$(pwd) bin/gd-translate --input ../../../../data/dependency_parse_data/english/dep_wiki.valid.raw --spec en~hi@N~hi@V --mem 60g`. Run from `preprocessing/dependency_parsing/gdtreebank`. When running `slurm`, be sure to run the command `GALACTIC_ROOT=$(pwd)` before starting it.
 
 ### Dependency parse of the corpus
-1. Command for converting a corpus to CONLLU file (MLM) - `python convert_dataset_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.valid.raw --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english`
+1. Command for converting a corpus to CONLLU file (MLM) - `python convert_sentences_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.valid.raw --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english`
 1. Command for converting galactic output to corpus (MLM) - `python convert_conllu_to_corpus.py --galactic_file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/dep_wiki-en~fr@N~hi@V.conllu --task mlm`
+1. Command for converting datasets (like MNLI) to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/glue_data_new/MNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/ --task mnli --truncate 100`
+
+#### MNLI
+1. Convert to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/glue_data_new/MNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/ --task mnli --truncate 100`
+1. Convert flattened sentences to dependency (Need to run this for 3 files) - `python convert_sentences_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/flattened_dev_matched.txt  --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/`
+1. Galactic (Change to `gdtreebank`) - `GALACTIC_ROOT=$(pwd) bin/gd-translate --input ../../../../data/dependency_parse_data/english/MNLI/dep_flattened_dev_matched.txt --spec en~hi@N~hi@V --mem 40g`
+1. Convert it back to MNLI format - ``
+
+#### XNLI
+1. Convert to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/XNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/XNLI --task xnli --truncate 50 --language en`
 
 ### Syntax modifications
 1. Monolingual model on English Conllu - `nohup python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm.py --output_dir=../../../bucket/model_outputs/wikitext/mono_english_syntax --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --num_train_epochs 2400 --do_train  --train_file=../../../bucket/syntax_modified_data/english_english.txt --run_name mono_english_syntax --save_steps 10000 --logging_steps 5 &`
