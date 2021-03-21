@@ -114,7 +114,12 @@ class ModelArguments:
     Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
     """
 
+    from_scratch: bool = field(
+        default=False,
+        metadata={"help": "Wheter to train from scratch; do not load pre-trained weights"}
+    )
     model_name_or_path: str = field(
+        default=None,
         metadata={"help": "Path to pretrained model or model identifier from huggingface.co/models"}
     )
     config_name: Optional[str] = field(
@@ -242,12 +247,17 @@ def main():
         cache_dir=model_args.cache_dir,
         use_fast=model_args.use_fast_tokenizer,
     )
-    model = AutoModelForSequenceClassification.from_pretrained(
-        model_args.model_name_or_path,
-        from_tf=bool(".ckpt" in model_args.model_name_or_path),
-        config=config,
-        cache_dir=model_args.cache_dir,
-    )
+
+    if not model_args.from_scratch and model_args.model_name_or_path:
+        model = AutoModelForSequenceClassification.from_pretrained(
+            model_args.model_name_or_path,
+            from_tf=bool(".ckpt" in model_args.model_name_or_path),
+            config=config,
+            cache_dir=model_args.cache_dir,
+        )
+    elif model_args.from_scratch:
+        logger.info("Training new model from scratch")
+        model = AutoModelForSequenceClassification.from_config(config)
 
     # Preprocessing the datasets
     if data_args.task_name is not None:
