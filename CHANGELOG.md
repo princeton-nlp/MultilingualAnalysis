@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file. Most recent
 
 ## March 2021
 1. Added `text-classification/run_xnli_synthetic.py` for handling synthetic modifications with XNLI. Check `scripts` folder for examples.
+1. Danqi: Added `text-classification/run_glue_from_scratch.py` for handling training and evaling random model. Check `scripts/eval_random_glue.sh` for examples.
 
 ## February 2021
 1. Modified `modify_inputs_invert` function to work both with MLM and MNLI.
