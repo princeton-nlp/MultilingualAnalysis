@@ -45,22 +45,20 @@ def convert_to_conllu_mlm(args):
     file_name = os.path.join(args.save_dir, 'dep_{}'.format(original_file_name))
     dep_file = open(file_name, 'w')
 
-    for sentence in tqdm(dep_parse, desc='Save sentences'):
+    for sentences in tqdm(dep_parse, desc='Save sentences'):
         # Check if it's an empty list
-        if not sentence:
+        if not sentences:
             continue
+        
+        for sentence in sentences:
+            # Word and its information
+            for word in sentence:
+                word_and_info = '\t'.join(word)
+                word_and_info = word_and_info + '\n'
+                dep_file.write(word_and_info)
 
-        # Go one list level down. `sentence` is not a list of words and their dep_parse information
-        sentence = sentence[0]
-
-        # Word and its information
-        for word in sentence:
-            word_and_info = '\t'.join(word)
-            word_and_info = word_and_info + '\n'
-            dep_file.write(word_and_info)
-
-        # Print a new line
-        dep_file.write('\n')
+            # Print a new line
+            dep_file.write('\n')
 
     # Close the file
     dep_file.close()
