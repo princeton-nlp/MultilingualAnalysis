@@ -20,14 +20,14 @@
 #SBATCH -n 1 #tasks
 #SBATCH --cpus-per-task=10
 #SBATCH --mem=70G
-#SBATCH --time=4-0:00:00    # Run for 7 days
+#SBATCH --time=2-0:00:00    # Run for 7 days
 #SBATCH --gres=gpu:1
 
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=asd@cs.princeton.edu
 
 # Submit jobs
-srun python convert_dataset_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.train.raw --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english &
+srun python convert_sentences_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.train.raw --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english &
 
 wait;
 

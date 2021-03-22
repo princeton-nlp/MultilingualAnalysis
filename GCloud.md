@@ -10,7 +10,7 @@
 ### Storage
 1. Mounting a storage bucket as a file system [link](https://cloud.google.com/storage/docs/gcs-fuse#using)
 1. `gsutil` for handling google storage buckets [link](https://cloud.google.com/storage/docs/quickstart-gsutil). [Link](https://cloud.google.com/sdk/docs#linux) for installing it
-1. Command for copying data - `./google-cloud-sdk/bin/gsutil cp -r ../BERT_Embeddings_Test/BERT_Embeddings_Test/word2vec_train/wiki_bookscorpus/ gs://attn-guid-europe`. `google-cloud-sdk` is in `/n/fs/nlp-asd/asd/asd/cloud`.
+1. Command for copying data - `./google-cloud-sdk/bin/gsutil cp /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/mono_dep_en_train.txt  gs://multilingual-1/syntax_modified_data/english`. `google-cloud-sdk` is in `/n/fs/nlp-asd/asd/asd/cloud`.
 
 ### Set up TPUs
 1. Tutorial for running transformers with TPUs - [link](https://cloud.google.com/tpu/docs/tutorials/transformer-pytorch)

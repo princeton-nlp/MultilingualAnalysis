@@ -114,7 +114,8 @@ def convert_xnli_to_sentences(args):
 
 def convert_mnli_to_sentences(args):
     # List all the files that need to be converted
-    file_list = ['train.tsv', 'dev_matched.tsv', 'dev_mismatched.tsv']
+    # file_list = ['train.tsv', 'dev_matched.tsv', 'dev_mismatched.tsv']
+    file_list = ['small_dev_matched.tsv']
     file_list = [os.path.join(args.data_dir, file_name) for file_name in file_list]
     print("MNLI test files are not being converted.")
 
@@ -175,7 +176,7 @@ def main():
     parser.add_argument("--data_dir", required=True, type=str, help="Path to file containing the corpus.")
     parser.add_argument("--save_dir", default=None, type=str, help="Path to directory where file will be saved.")
     parser.add_argument("--task", default='mlm', type=str, help="mlm/mnli/xnli/..../")
-    parser.add_argument("--truncate", default=50, type=int, help="Truncate sentences which are greater than this length. This is essential because galactic dependencies code can't handle very long sentences.")
+    parser.add_argument("--truncate", default=1000000, type=int, help="Truncate sentences which are greater than this length. This is essential because galactic dependencies code can't handle very long sentences.")
     parser.add_argument("--verbose", action="store_true", help="Verbose or now")
     parser.add_argument("--language", default='en', type=str, help="Language code if using a multilingual dataset like XNLI")
 

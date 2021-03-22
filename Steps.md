@@ -31,10 +31,10 @@
 1. Command for converting datasets (like MNLI) to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/glue_data_new/MNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/ --task mnli --truncate 100`
 
 #### MNLI
-1. Convert to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/glue_data_new/MNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/ --task mnli --truncate 100`
-1. Convert flattened sentences to dependency (Need to run this for 3 files) - `python convert_sentences_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/flattened_dev_matched.txt  --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/`
+1. Convert to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/glue_data_new/MNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/ --task mnli`
+1. Convert flattened sentences to dependency (Need to run this for 3 files) - `python convert_sentences_to_dependency.py --language en --task mnli --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/flattened_dev_matched.txt  --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/`
 1. Galactic (Change to `gdtreebank`) - `GALACTIC_ROOT=$(pwd) bin/gd-translate --input ../../../../data/dependency_parse_data/english/MNLI/dep_flattened_dev_matched.txt --spec en~hi@N~hi@V --mem 40g`
-1. Convert it back to MNLI format - ``
+1. Convert it back to MNLI format - `python convert_conllu_to_corpus.py --galactic_file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/dep_flattened_dev_matched-en~hi@N~hi@V.conllu --index_selector /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/selected_indices_flattened_dev_matched.txt --supervised_dataset /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/glue_data_new/MNLI/dev_matched.tsv --task mnli`
 
 #### XNLI
 1. Convert to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/XNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/XNLI --task xnli --truncate 50 --language en`
