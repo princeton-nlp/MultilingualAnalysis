@@ -3,9 +3,9 @@ export RUN_NO=_english_syntax
 
 python ../../transformers/examples/xla_spawn.py --num_cores 1 ../../transformers/examples/text-classification/run_glue_synthetic.py \
   --model_name_or_path ../../../../bucket/model_outputs/glue/$TASK_NAME$RUN_NO/ \
-  --task_name $TASK_NAME \
   --cache_dir=../../../../bucket/cache \
-  --train_file ../../../../bucket/syntax_modified_data/english/en_hi_N_hi_V/GLUE/MNLI/train.tsv \
+  --train_file ../../../../bucket/syntax_modified_data/english/en_hi_N_hi_V/GLUE/MNLI/mono_dep_flattened_dev_matched-en~hi\@N~hi\@V.json \
+  --validation_file ../../../../bucket/syntax_modified_data/english/en_hi_N_hi_V/GLUE/MNLI/mono_dep_flattened_dev_matched-en~hi\@N~hi\@V.json \
   --do_eval \
   --max_seq_length 128 \
   --per_device_train_batch_size 32 \
@@ -15,6 +15,4 @@ python ../../transformers/examples/xla_spawn.py --num_cores 1 ../../transformers
   --save_steps 5000 \
   --overwrite_output_dir \
   --output_dir ../../../../bucket/model_outputs/glue/$TASK_NAME$RUN_NO/ \
-  --run_name glue_$TASK_NAME \
-  --one_to_one_mapping \
-  --word_modification replace
+  --run_name glue_$TASK_NAME
