@@ -22,6 +22,7 @@
 #SBATCH --mem=70G
 #SBATCH --time=2-0:00:00    # Run for 7 days
 #SBATCH --gres=gpu:1
+#SBATCH --exclude=node[030-031]
 
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=asd@cs.princeton.edu

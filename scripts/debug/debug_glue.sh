@@ -1,8 +1,8 @@
 export TASK_NAME=mnli
 export RUN_NO=_1
 
-python -m pdb ../transformers/examples/text-classification/run_glue_synthetic.py \
-  --model_name_or_path ../../data/model_outputs/wikitext/debug/ \
+python -m pdb ../../transformers/examples/text-classification/run_glue_synthetic.py \
+  --model_name_or_path ../../../data/model_outputs/wikitext/debug/ \
   --task_name $TASK_NAME \
   --do_train \
   --do_eval \
@@ -14,7 +14,7 @@ python -m pdb ../transformers/examples/text-classification/run_glue_synthetic.py
   --save_steps 10000 \
   --overwrite_output_dir \
   --cache_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/transformer_models \
-  --output_dir ../../data/model_outputs/glue/debug/$TASK_NAME$RUN_NO/ \
+  --output_dir ../../../data/model_outputs/glue/debug/$TASK_NAME$RUN_NO/ \
   --run_name glue_$TASK_NAME \
   --invert_word_order \
   --word_modification replace

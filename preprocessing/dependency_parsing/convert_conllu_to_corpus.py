@@ -6,9 +6,14 @@ It converts it both to a monolingual corpus a synthetic language corpus.
 import argparse
 from tqdm import tqdm
 import os
+import pandas
+import json
 
 
 def convert_to_document_mnli(args):
+    """
+    JSON files need to follow these guidelines: https://huggingface.co/docs/datasets/loading_datasets.html#json-files
+    """
     # Store lines in the file
     lines = open(args.galactic_file, 'r').readlines()
 
@@ -39,11 +44,34 @@ def convert_to_document_mnli(args):
     mono_file = os.path.join(file_dir, '{}_{}.tsv'.format('mono', original_file_name.split('.')[0]))
     f = open(mono_file, 'w')
 
+    # Header
+    sep = '\t'
+    header = sep.join(['sentence1', 'sentence2', 'label'])+'\n'
+
     # Write the header
     f.write(header)
-    for idx in supervised_indices:
-        line = supervised_lines[idx]
+    for i, idx in enumerate(supervised_indices):
+        line = []
+        # First sentence
+        line.append(monolingual[2 * i].strip())
+        # Second sentence
+        line.append(monolingual[2 * i + 1].strip())
+        # Label
+        line.append(supervised_lines[idx].strip().split()[-1])
+
+        # Combine the line
+        line = sep.join(line)+'\n'
+
         f.write(line)
+    f.close()
+
+    # Also store it as JSON
+    json_file = os.path.join(file_dir, '{}_{}.json'.format('mono', original_file_name.split('.')[0]))
+    f = open(json_file, 'w')
+    json_str = pandas.read_csv(mono_file, delimiter='\t').to_json(orient='records')
+    json_list = json.loads(json_str)
+    for sent in json_list:
+        f.write(json.dumps(sent)+'\n')
     f.close()
 
     # Store the synthetic file
@@ -53,12 +81,26 @@ def convert_to_document_mnli(args):
     # Write the header
     f.write(header)
     for i, idx in enumerate(supervised_indices):
-        line = supervised_lines[idx].strip().split('\t')
-        line[8] = synthetic[2 * i].rstrip()
-        line[9] = synthetic[2 * i + 1].rstrip()
-        line = '\t'.join(line)
+        line = []
+        # First sentence
+        line.append(synthetic[2 * i].strip())
+        # Second sentence
+        line.append(synthetic[2 * i + 1].strip())
+        # Label
+        line.append(supervised_lines[idx].strip().split()[-1])
+
+        line = sep.join(line)
         f.write(line+'\n')
     f.close()
+
+    # Also store it as JSON
+    json_file = os.path.join(file_dir, '{}_{}.json'.format('synthetic', original_file_name.split('.')[0]))
+    f = open(json_file, 'w')
+    json_str = pandas.read_csv(synthetic_file, delimiter='\t').to_json(orient='records')
+    json_list = json.loads(json_str)
+    for sent in json_list:
+        f.write(json.dumps(sent)+'\n')
+    f.close()    
 
 
 def convert_to_document_mlm(args):

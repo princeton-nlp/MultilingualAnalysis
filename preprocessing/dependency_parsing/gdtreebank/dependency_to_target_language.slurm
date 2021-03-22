@@ -10,7 +10,7 @@
 # salloc --gres=gpu:1 -c 2 --mem=4G srun --pty $SHELL -l
 
 # Give your job a name, so you can recognize it in the queue overview
-#SBATCH --job-name=galactic_wikitext
+#SBATCH --job-name=galactic_mnli
 
 # Remove one # to uncommment
 #SBATCH --output=%x_%j.out
@@ -27,7 +27,8 @@
 #SBATCH --mail-user=asd@cs.princeton.edu
 
 # Submit jobs
-srun bin/gd-translate --input ../../../../data/dependency_parse_data/english/dep_wiki_train.txt --spec en~hi@N~hi@V --mem 60g &
+srun bin/gd-translate --input /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/dep_flattened_train.txt --spec en~hi@N~hi@V --mem 60g &
+# srun bin/gd-translate --input ../../../../data/dependency_parse_data/english/dep_wiki_train.txt --spec en~hi@N~hi@V --mem 60g &
 
 wait;
 
