@@ -2,9 +2,10 @@ export TASK_NAME=mnli
 export RUN_NO=_english_syntax
 
 python ../../transformers/examples/xla_spawn.py --num_cores 1 ../../transformers/examples/text-classification/run_glue_synthetic.py \
-  --model_name_or_path ../../../bucket/model_outputs/syntax_modif/english/english_synth_en_fr_hi_120/ \
-  --task_name $TASK_NAME \
+  --model_name_or_path ../../../../bucket/model_outputs/syntax_modif/english/english_synth_en_fr_hi_120/ \
   --cache_dir=../../../../bucket/cache \
+  --train_file ../../../../bucket/syntax_modified_data/english/en_hi_N_hi_V/GLUE/MNLI/train.json \
+  --validation_file ../../../../bucket/syntax_modified_data/english/en_hi_N_hi_V/GLUE/MNLI/mono_dep_flattened_dev_matched-en~hi\@N~hi\@V.json \
   --do_train \
   --do_eval \
   --max_seq_length 128 \

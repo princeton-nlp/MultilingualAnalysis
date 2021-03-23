@@ -93,14 +93,13 @@ def convert_to_document_mnli(args):
         f.write(line+'\n')
     f.close()
 
-    # Also store it as JSON
+    # Also store it as a JSON
     json_file = os.path.join(file_dir, '{}_{}.json'.format('synthetic', original_file_name.split('.')[0]))
     f = open(json_file, 'w')
-    json_str = pandas.read_csv(synthetic_file, delimiter='\t').to_json(orient='records')
-    json_list = json.loads(json_str)
-    for sent in json_list:
-        f.write(json.dumps(sent)+'\n')
-    f.close()    
+    for i, idx in enumerate(supervised_indices):
+        temp_dict = {'sentence1': synthetic[2 * i].strip(), 'sentence2': synthetic[2 * i + 1].strip(), 'label': supervised_lines[idx].strip().split()[-1]}
+        f.write(json.dumps(temp_dict)+'\n')        
+    f.close()
 
 
 def convert_to_document_mlm(args):

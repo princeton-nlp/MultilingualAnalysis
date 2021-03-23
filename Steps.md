@@ -24,6 +24,7 @@
 ### Galactic dependencies
 1. Example data for galactic dependencies is in `/n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/galactic/treebanks-V1.0/treebanks`
 1. Converting a CONLLU file to a different word order - `GALACTIC_ROOT=$(pwd) bin/gd-translate --input ../../../../data/dependency_parse_data/english/dep_wiki.valid.raw --spec en~hi@N~hi@V --mem 60g`. Run from `preprocessing/dependency_parsing/gdtreebank`. When running `slurm`, be sure to run the command `GALACTIC_ROOT=$(pwd)` before starting it.
+1. Uploading to Google Cloud: `./google-cloud-sdk/bin/gsutil cp /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/en_hi_N_hi_V/synthetic_dep_flattened_dev_matched-en~fr@N~hi@V.*  gs://multilingual-1/syntax_modified_data/english/en_hi_N_hi_V/GLUE/MNLI`
 
 ### Dependency parse of the corpus
 1. Command for converting a corpus to CONLLU file (MLM) - `python convert_sentences_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.valid.raw --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english`
