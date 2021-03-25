@@ -1,0 +1,17 @@
+python -m pdb ../../transformers/examples/language-modeling/run_mlm_synthetic.py \
+ --train_file=../../../../../BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.valid.txt \
+ --validation_file=../../../../../BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/wikitext-103-raw/wiki.valid.txt \
+ --output_dir=../../../data/model_outputs/wikitext/debug \
+ --model_type=roberta \
+ --config_name=roberta-base \
+ --tokenizer_name=roberta-base \
+ --learning_rate 1e-4 \
+ --num_train_epochs 2 \
+ --warmup_steps 10000 \
+ --do_train \
+ --do_eval \
+ --save_steps 10000 \
+ --per_device_train_batch_size 2 \
+ --overwrite_output_dir \
+ --one_to_one_mapping \
+ --word_modification add
