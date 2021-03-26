@@ -12,6 +12,11 @@
 1. `gsutil` for handling google storage buckets [link](https://cloud.google.com/storage/docs/quickstart-gsutil). [Link](https://cloud.google.com/sdk/docs#linux) for installing it
 1. Command for copying data - `./google-cloud-sdk/bin/gsutil cp /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/mono_dep_en_train.txt  gs://multilingual-1/syntax_modified_data/english`. `google-cloud-sdk` is in `/n/fs/nlp-asd/asd/asd/cloud`.
 
+### Increasing disk size
+1. [Link](https://www.cloudbooklet.com/how-to-resize-disk-of-a-vm-instance-in-google-cloud/) for increase/resizing disk.
+1. If you are resizing a boot disk, you might have to restart the VM. If you are using a non-boot disk, then you might have to perform some additional operations. [(link)](https://cloud.google.com/compute/docs/disks/working-with-persistent-disks?authuser=1#resize_pd)
+1. [Link](https://cloud.google.com/sdk/gcloud/reference/compute/disks/resize?hl=en) for programmatically doing it. I haven't tried this method.
+
 ### Set up TPUs
 1. Tutorial for running transformers with TPUs - [link](https://cloud.google.com/tpu/docs/tutorials/transformer-pytorch)
 1. Alternate link from Google's documentation - [link](https://cloud.google.com/tpu/docs/creating-deleting-tpus#us)

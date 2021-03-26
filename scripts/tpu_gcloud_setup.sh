@@ -6,6 +6,8 @@ function SourceCodeAndInstall {
     git clone https://github.com/ameet-1997/Multilingual.git
     cd Multilingual/transformers/
     conda activate torch-xla-1.6
+    # In some instance, just `conda activate base` should work.
+    # `import torch_xla` to check if it's the correct environment.
     pip install wandb
     pip install -e .
     pip install -r examples/language-modeling/requirements.txt
