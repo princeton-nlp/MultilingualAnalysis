@@ -11,6 +11,7 @@ function SourceCodeAndInstall {
     pip install wandb
     pip install -e .
     pip install -r examples/language-modeling/requirements.txt
+    pip install -r examples/token-classification/requirements.txt
 }
 
 function GCFuse {

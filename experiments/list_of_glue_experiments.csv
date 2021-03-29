@@ -1,0 +1,5 @@
+User,Date,VM,TPU,Description,Command,Train W&B link,Eval W&B link
+
+Ameet,3/28/2021,glue-p-1,tpu-glue,[mnli_one_to_one_mapping] Evaluating one_to_one_mapping 8-layer model on MNLI,nohup ./glue_zero_shot.sh  &, https://wandb.ai/ameet-1997/glue/runs/e9oot2yg?workspace=user-ameet-1997 , https://wandb.ai/ameet-1997/glue/runs/3llle8q5?workspace=user-ameet-1997
+
+Ameet,3/28/2021,glue-p-1,tpu-glue,[mnli_one_to_one_mapping] Evaluating one_to_one_mapping 12-layer model on MNLI,nohup ./glue_zero_shot.sh  &, https://wandb.ai/ameet-1997/glue/runs/35wp7071?workspace=user-ameet-1997 , https://wandb.ai/ameet-1997/glue/runs/2flxnz1w?workspace=user-ameet-1997
