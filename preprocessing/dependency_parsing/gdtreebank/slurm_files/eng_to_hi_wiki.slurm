@@ -10,7 +10,7 @@
 # salloc --gres=gpu:1 -c 2 --mem=4G srun --pty $SHELL -l
 
 # Give your job a name, so you can recognize it in the queue overview
-#SBATCH --job-name=galactic_wikitext
+#SBATCH --job-name=galactic_en_to_hi
 
 # Remove one # to uncommment
 #SBATCH --output=%x_%j.out
