@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
+## April 2021
+1. `supervised_dataset_loop.slurm` in `preprocessing/gdtreebank/` for looping over languages and submitting jobs.
+1. Directory `preprocessing/ner` changed to `preprocessing/ner_pos`
+1. XNLI data stored in `data/xnli`.
+1. Added `preprocesssing/xnli`. `convert_xnli_tsv_to_json.py` and other files added. 
+1. Debugged word modifications for POS. Commands in `Debug.md`.
+1. Modified `synthetic_utils.py` to work with NER and POS.
+
 ## March 2021
 1. Added `preprocessing/ner` for pre-processing POS and NER datasets to JSON.
 1. Added an `experiments` folder to keep track of all the experiments being performed.

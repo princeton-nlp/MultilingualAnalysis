@@ -68,6 +68,15 @@ function GitHub {
   git config --global credential.helper store
 }
 
+function UbuntuVM {
+  sudo apt install git-all
+  sudo apt-get install wget
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  chmod +x Miniconda3-latest-Linux-x86_64.sh
+  bash Miniconda3-latest-Linux-x86_64.sh
+  sudo apt install default-jre
+}
+
 ###
 
 for arg in "$@"; do

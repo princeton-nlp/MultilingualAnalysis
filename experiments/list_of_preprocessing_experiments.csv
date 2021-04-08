@@ -1,0 +1,3 @@
+User,Date,VM,TPU,Description,Command
+
+Ameet,4/6/2021,preprocessing-highmem-4,None,hi~fr@N~fr@V syntax modification,nohup bin/gd-translate --input ~/bucket/pretrain_data/hi/dep_train.txt --spec hi~fr@N~fr@V --mem 290g &

@@ -39,10 +39,18 @@
 
 #### XNLI
 1. Convert to flattened corpus - `python convert_dataset_to_sentences.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/XNLI --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/XNLI --task xnli --truncate 50 --language en`
+1. Convert monolingual XNLI (train) to JSON - `python convert_xnli_tsv_to_json.py --mode train --xnli_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/XNLI/XNLI-MT-1.0/multinli/ --xnli_save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en --language en`
+1. Convert monolingual XNLI (dev) to JSON - `python convert_xnli_tsv_to_json.py --mode dev --xnli_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/XNLI/XNLI-1.0/ --xnli_save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en --language en`
+1. Convert JSON to flat corpus - `python convert_json_to_sentences.py --xnli_file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/train_en.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en`
+1. Convert flat corpus to dep - `python convert_dataset_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/flattened_dev_en.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/dep/ --task xnli`
+1. Convert dep to galactic - `bin/gd-translate --input /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/dep/dep_flattened_dev_en.json --spec en~fr@N~fr@V --mem 40g`
+1. Convert galactic to XNLI - `python convert_galactic_to_corpus.py --galactic_file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/dep/dep_flattened_dev_en-en~en@N~en@V.conllu --supervised_dataset /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/dev_en.json --index_selector /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/dep/selected_indices_flattened_dev_en.json --task xnli`
 
 #### NER
-1. Convert NER dataset to JSON - `python convert_token_classification_to_json.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/xtreme/panx_dataset/en --task_name ner --language en`
-1. 
+1. Convert NER dataset to JSON - `python convert_token_classification_to_json.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/xtreme/panx_dataset/ --task_name ner --language en`
+
+#### POS
+1. Convert POS dataset to JSON - `python convert_token_classification_to_json.py --data_dir /n/fs/nlp-asd/asd/asd/BERT_Embeddings_Test/BERT_Embeddings_Test/global_data/multilingual_nlu/xtreme/udpos/ --task_name pos --language ar`
 
 ### Syntax modifications
 1. (Old) Monolingual model on English Conllu - `nohup python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm.py --output_dir=../../../bucket/model_outputs/wikitext/mono_english_syntax --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --num_train_epochs 2400 --do_train  --train_file=../../../bucket/syntax_modified_data/english_english.txt --run_name mono_english_syntax --save_steps 10000 --logging_steps 5 &`

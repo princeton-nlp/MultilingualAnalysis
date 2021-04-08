@@ -93,7 +93,7 @@ def modify_inputs_words(data_args, training_args, datasets, task_name, tokenizer
     return create_modified_dataset(data_args, map_function, datasets)
 
 
-def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer=None):        
+def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer=None, negative_label=None):        
     # Check the arguments
     assert data_args.word_modification == 'add' or data_args.word_modification == 'replace', "Illegal option for argument word_modification"
 
@@ -107,12 +107,36 @@ def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenize
         # Reverse function for NER/POS labels
         def reverse_substr_ner_pos(sent_indices):
             temp_sent_indices = deepcopy(sent_indices)
-            start_idx = 0
-            current_idx = 0
 
             sentence_length = len(sent_indices)
 
             sent_indices[1:-1] = reverse_list(temp_sent_indices[1:-1])
+
+            """
+            # Now, if the labels were ['O', 'B-PER', 'I-PER'], they are modified to ['I-PER', 'B-PER', 'O']
+            # Change it to ['B-PER', 'I-PER', 'O']
+            # negative_label is the label index corresponding to 'O'
+            if negative_label and task_name == 'ner':
+                negative_labels = [negative_label]
+                temp_sent_indices = deepcopy(sent_indices)
+                start_idx = -1
+
+                for i in range(sentence_length):
+                    if sent_indices[i] not in negative_labels:
+                        # Check if this is the first occurrence of an entity tag
+                        if start_idx < 0:
+                            start_idx = i
+                            # If this is the last token in the sentence, then we don't have reverse it
+                        elif  start_idx >= 0 and (i == (sentence_length - 1)):
+                            # If it's the last token of the sentence and it is not 'O', then flip
+                            sent_indices[start_idx: i+1] = reverse_list(temp_sent_indices[start_idx: i+1])
+                    else:
+                        if start_idx > 0:
+                            # Flip the labels
+                            sent_indices[start_idx: i] = reverse_list(temp_sent_indices[start_idx: i])
+                            start_idx = -1
+            """
+                
             return sent_indices
         
         def reverse_substr(sent_indices):
