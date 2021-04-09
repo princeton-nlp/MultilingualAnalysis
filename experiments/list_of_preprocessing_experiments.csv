@@ -1,3 +1,11 @@
 User,Date,VM,TPU,Description,Command
 
 Ameet,4/6/2021,preprocessing-highmem-4,None,hi~fr@N~fr@V syntax modification,nohup bin/gd-translate --input ~/bucket/pretrain_data/hi/dep_train.txt --spec hi~fr@N~fr@V --mem 290g &
+
+Ameet,4/8/2021,preprocessing-highmem-4,None,hi~ar@N~ar@V syntax modification,nohup bin/gd-translate --input ~/bucket/pretrain_data/hi/dep_train.txt --spec hi~ar@N~ar@V --mem 290g &
+
+Ameet,4/8/2021,preprocessing-highmem-1,None,fr~en@N~en@V syntax modification,nohup bin/gd-translate --input ~/bucket/pretrain_data/fr/dep_train.txt --spec fr~en@N~en@V --mem 290g &
+
+Ameet,4/9/2021,preprocessing-highmem-2,None,fr~ar@N~ar@V syntax modification,nohup bin/gd-translate --input ~/bucket/pretrain_data/fr/dep_train.txt --spec fr~ar@N~ar@V --mem 290g &
+
+Ameet,4/9/2021,preprocessing-highmem-3,None,fr~hi@N~hi@V syntax modification,nohup bin/gd-translate --input ~/bucket/pretrain_data/fr/dep_train.txt --spec fr~hi@N~hi@V --mem 290g &

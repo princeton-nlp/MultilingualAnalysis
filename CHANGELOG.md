@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## April 2021
+1. Added preprocessing scripts to `preprocessing/ner_pos`.
+1. New push on April 8 (XNLI preprocessing). [Link](https://github.com/ameet-1997/Multilingual/commit/649d916b99e0cbcda3fa8e14c390fcc15af954a4).
 1. `supervised_dataset_loop.slurm` in `preprocessing/gdtreebank/` for looping over languages and submitting jobs.
 1. Directory `preprocessing/ner` changed to `preprocessing/ner_pos`
 1. XNLI data stored in `data/xnli`.
