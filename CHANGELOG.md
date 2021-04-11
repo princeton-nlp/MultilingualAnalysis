@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## April 2021
+1. New push on April 9 (NER and POS preprocessing). [Link](https://github.com/ameet-1997/Multilingual/commit/9456acdb4cc4ef46d634a883e5ba94cf1fb1cded).
 1. Added preprocessing scripts to `preprocessing/ner_pos`.
 1. New push on April 8 (XNLI preprocessing). [Link](https://github.com/ameet-1997/Multilingual/commit/649d916b99e0cbcda3fa8e14c390fcc15af954a4).
 1. `supervised_dataset_loop.slurm` in `preprocessing/gdtreebank/` for looping over languages and submitting jobs.
