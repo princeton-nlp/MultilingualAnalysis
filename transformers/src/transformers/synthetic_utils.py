@@ -187,10 +187,18 @@ def modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_na
     # Vocabulary size
     vocab_size = tokenizer.vocab_size
 
+    # If we are replacing only a fraction of the words, create a list
+    # We use the same variable data_args.modify_words_probability here
+    if data_args.one_to_one_file is not None:
+        dont_modify = np.load(open(data_args.one_to_one_file, 'rb'))
+
     # Step 1: Create map function for modification
     def map_function(examples):
         for j in range(len(examples['input_ids'])):
-            examples['input_ids'][j] = [examples['input_ids'][j][i] if (examples['input_ids'][j][i] in special_tokens) else (examples['input_ids'][j][i] + vocab_size)  for i in range(len(examples['input_ids'][j]))]
+            if data_args.one_to_one_file is not None:
+                examples['input_ids'][j] = [examples['input_ids'][j][i] if (examples['input_ids'][j][i] in special_tokens or examples['input_ids'][j][i] in dont_modify) else (examples['input_ids'][j][i] + vocab_size)  for i in range(len(examples['input_ids'][j]))]
+            else:
+                examples['input_ids'][j] = [examples['input_ids'][j][i] if (examples['input_ids'][j][i] in special_tokens) else (examples['input_ids'][j][i] + vocab_size)  for i in range(len(examples['input_ids'][j]))]
         return examples
 
     # Step 2: Return modified dataset
@@ -206,7 +214,7 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
     if data_args.invert_word_order:
         datasets = modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer)
     if data_args.one_to_one_mapping:
-        datasets = modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer)        
+        datasets = modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer)
 
     return datasets
 

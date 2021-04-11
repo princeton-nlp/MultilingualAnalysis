@@ -174,6 +174,12 @@ class DataTrainingArguments:
             "help": "Create a vocabulary with a one-to-one mapping with the new vocab, like in K. et al."
         },
     )
+    one_to_one_file: str = field(
+        default=None,
+        metadata={
+            "help": "File which contains indices in the vocabulary to ignore."
+        },
+    )    
     shift_special: bool = field(
         default=False,
         metadata={
