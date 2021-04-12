@@ -1,5 +1,5 @@
 export LANGUAGE=hindi
-export MODEL_COFIG=../../../../bucket/model_outputs/wikitext/mono_english_8512_danqi_p5/config.json
+export MODEL_COFIG=../../config/roberta_8/roberta_base_8_512.json
 
 python examples/xla_spawn.py -num_cores 8 examples/language-modeling/run_mlm_synthetic.py \
     --train_file ../../../../bucket/hindi_wiki/wiki.train.txt \
