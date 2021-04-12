@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## April 2021
+1. Added files to `transformers/examples/sentence_retrieval`. Commands in `Debug.md`.
+1. New push April 10 (Sentence retrieval and one to one mapping). [Link](https://github.com/ameet-1997/Multilingual/commit/4ecdb1e66981ecb6390afb344a72ed1995978843)
 1. Added a  file to create indices to ignore in one_to_one mapping: `synthetic_language_files/word_based/one_to_one_mapping.py`.
 1. Added preprocessing scripts for sentence retrieval. `preprocessing/sentence_retrieval`.
 1. New push on April 9 (NER and POS preprocessing). [Link](https://github.com/ameet-1997/Multilingual/commit/9456acdb4cc4ef46d634a883e5ba94cf1fb1cded).
