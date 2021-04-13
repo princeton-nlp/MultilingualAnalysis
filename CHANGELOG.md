@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## April 2021
+1. Added `preprocessing/qa` for converting SQuAD files to HF json.
+1. Added `transformers/examples/question-answering/run_qa_synthetic.py`.
+1. Downloaded FQuAD data from [here](https://fquad.illuin.tech). There is also an alternate dataset [here](https://github.com/Alikabbadj/French-SQuAD).
+1. Downloaded XQuAD data from [here](https://github.com/deepmind/xquad).
+1. New push April 12 (Sentence retrieval scripts).
 1. Added files to `transformers/examples/sentence_retrieval`. Commands in `Debug.md`.
 1. New push April 10 (Sentence retrieval and one to one mapping). [Link](https://github.com/ameet-1997/Multilingual/commit/4ecdb1e66981ecb6390afb344a72ed1995978843)
 1. Added a  file to create indices to ignore in one_to_one mapping: `synthetic_language_files/word_based/one_to_one_mapping.py`.

@@ -67,6 +67,5 @@
 1. Convert dep to galactic - `bin/gd-translate --input /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/tatoeba/en/dep/dep_flattened_en.json --spec en~fr@N~fr@V --mem 40g`
 1. Convert galactic to tatoeba - `python convert_galactic_to_corpus.py --galactic_file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/tatoeba/en/dep/dep_flattened_en-en~en@N~en@V.conllu`
 
-### Syntax modifications
-1. (Old) Monolingual model on English Conllu - `nohup python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm.py --output_dir=../../../bucket/model_outputs/wikitext/mono_english_syntax --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --num_train_epochs 2400 --do_train  --train_file=../../../bucket/syntax_modified_data/english_english.txt --run_name mono_english_syntax --save_steps 10000 --logging_steps 5 &`
-1. (Old) English + Hindi - `nohup python examples/xla_spawn.py --num_cores 8 examples/language-modeling/run_mlm.py --output_dir=../../../bucket/model_outputs/wikitext/english_syntax_hindi --model_type=roberta --config_name=roberta-base --tokenizer_name=roberta-base --num_train_epochs 2400 --do_train  --train_file=../../../bucket/syntax_modified_data/english_modified.txt --run_name english_syntax_hindi --save_steps 10000 --logging_steps 5 &`
+#### XQuAD
+1. Convert dataset to correct JSON format - `python convert_xquad_to_json.py --file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xquad/en/old/train_en.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xquad/en`
