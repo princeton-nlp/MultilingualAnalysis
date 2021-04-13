@@ -42,6 +42,9 @@ from transformers import (
 from transformers.trainer_utils import is_main_process
 from utils_qa import postprocess_qa_predictions
 
+# Synthetic languages		
+from transformers import modify_inputs_synthetic
+
 
 logger = logging.getLogger(__name__)
 
@@ -470,6 +473,7 @@ def main():
             null_score_diff_threshold=data_args.null_score_diff_threshold,
             output_dir=training_args.output_dir,
             is_world_process_zero=trainer.is_world_process_zero(),
+            data_args=data_args,
         )
         # Format the result to the format the metric expects.
         if data_args.version_2_with_negative:
@@ -487,6 +491,10 @@ def main():
 
     def compute_metrics(p: EvalPrediction):
         return metric.compute(predictions=p.predictions, references=p.label_ids)
+
+    # Make synthetic language modifications if necessary
+    train_dataset = modify_inputs_synthetic(data_args, training_args, train_dataset, task_name=data_args.task_name, task_type=data_args.task_name, tokenizer=tokenizer)
+    validation_dataset = modify_inputs_synthetic(data_args, training_args, validation_dataset, task_name=data_args.task_name, task_type=data_args.task_name, tokenizer=tokenizer)        
 
     # Initialize our Trainer
     trainer = QuestionAnsweringTrainer(

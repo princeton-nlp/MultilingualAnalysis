@@ -93,9 +93,83 @@ def modify_inputs_words(data_args, training_args, datasets, task_name, tokenizer
     return create_modified_dataset(data_args, map_function, datasets)
 
 
-def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer=None, negative_label=None):        
+def modify_inputs_invert_qa(data_args, training_args, datasets, task_name, tokenizer=None, negative_label=None):        
     # Check the arguments
     assert data_args.word_modification == 'add' or data_args.word_modification == 'replace', "Illegal option for argument word_modification"
+
+    # If the task is QA, then call a different function
+
+    # TODO: </s> index is hard coded here. Pull it from the tokenizer instead.
+    # TODO: pad_index is hard coded here. Pull it from the tokenizer instead.
+    
+    def map_function(examples):
+        def reverse_list(s):
+            s.reverse()
+            return s
+        
+        def reverse_substr(sent_indices):
+            temp_sent_indices = deepcopy(sent_indices)
+            start_idx = 0
+            current_idx = 0
+
+            # Create a list with numbers from 0 to len(sent_indices)
+            number_indices = list(range(len(sent_indices)))
+            temp_number_indices = list(range(len(sent_indices)))
+
+            sentence_length = len(sent_indices)
+
+            # Indices to consider for [SEP] and [CLS]
+            if tokenizer:
+                sep_cls = [tokenizer.convert_tokens_to_ids(tokenizer.cls_token), tokenizer.convert_tokens_to_ids(tokenizer.sep_token)]
+            else:
+                # If tokenizer is not passed, then use the default RoBERTa tokenizer tokens
+                sep_cls = [0, 2]
+
+            for i in range(sentence_length):
+                if (sent_indices[i] in sep_cls) or (i == (sentence_length - 1)):
+                    # flip sentence on start_idx, i
+                    if i > start_idx:
+                        if (i == (sentence_length - 1)) and (not (sent_indices[i] in sep_cls)):
+                            sent_indices[start_idx: i+1] = reverse_list(temp_sent_indices[start_idx: i+1])
+                            number_indices[start_idx: i+1] = reverse_list(temp_number_indices[start_idx: i+1])
+                        else:
+                            sent_indices[start_idx: i] = reverse_list(temp_sent_indices[start_idx: i])
+                            number_indices[start_idx: i] = reverse_list(temp_number_indices[start_idx: i])
+                    start_idx = i+1
+            return sent_indices, number_indices
+
+        for j in range(len(examples['input_ids'])):
+            example_length = len(examples['input_ids'][j])
+            modified_input_ids, number_indices = reverse_substr(examples['input_ids'][j])
+
+            # Since it's a QA task, make modifications to other keys before `input_ids`
+            # Train set
+            if 'start_positions' in examples:
+                temp = examples['start_positions'][j]
+                examples['start_positions'][j] = number_indices[examples['end_positions'][j]]
+                examples['end_positions'][j] = number_indices[temp]
+
+            # Validation set
+            if 'offset_mapping' in examples:
+                examples['offset_mapping'][j] = [examples['offset_mapping'][j][idx] for idx in number_indices]
+
+            # Modify the inputs
+            examples['input_ids'][j] = [modified_input_ids[i] for i in range(example_length)]
+
+
+        return examples
+
+    # Step 2: Return modified dataset
+    return create_modified_dataset(data_args, map_function, datasets)
+
+
+def modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer=None, negative_label=None):
+    # Check the arguments
+    assert data_args.word_modification == 'add' or data_args.word_modification == 'replace', "Illegal option for argument word_modification"
+
+    # If the task is QA, then call a different function
+    if task_name == 'qa':
+        return modify_inputs_invert_qa(data_args, training_args, datasets, task_name, tokenizer, negative_label)
 
     # TODO: </s> index is hard coded here. Pull it from the tokenizer instead.
     # TODO: pad_index is hard coded here. Pull it from the tokenizer instead.
@@ -205,7 +279,7 @@ def modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_na
     return create_modified_dataset(data_args, map_function, datasets)
 
 def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm', tokenizer=None):
-    if task_type in ['glue', 'xnli', 'ner', 'pos']:
+    if task_type in ['glue', 'xnli', 'ner', 'pos', 'qa']:
         data_args.preprocessing_num_workers = None
     if data_args.permute_vocabulary:
         datasets = modify_inputs_permute(data_args, training_args, datasets, task_name)
