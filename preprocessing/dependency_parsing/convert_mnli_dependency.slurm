@@ -10,7 +10,7 @@
 # salloc --gres=gpu:1 -c 2 --mem=4G srun --pty $SHELL -l
 
 # Give your job a name, so you can recognize it in the queue overview
-#SBATCH --job-name=mnli_dep
+#SBATCH --job-name=xnli_dep
 
 # Remove one # to uncommment
 #SBATCH --output=%x_%j.out
@@ -28,6 +28,7 @@
 
 # Submit jobs
 srun python convert_sentences_to_dependency.py --language en --task mnli --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/flattened_train.txt  --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/dependency_parse_data/english/MNLI/ &
+# srun python convert_dataset_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/flattened_train_en.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/dep/ --task xnli &
 
 wait;
 

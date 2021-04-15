@@ -34,7 +34,7 @@ for language2 in $language_string; do
 # You can use srun to run multiple scripts in the same job in parallel (make sure to use & at the end!). Note how you can specify the resources used for each srun and make them exclusive using the --exclusive flag.
     # srun python convert_dataset_to_dependency.py --language ${language1} --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/ner/${language1}/flattened_dev.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/ner/${language1}/dep/ --task ner
     # srun python convert_dataset_to_dependency.py --language ${language1} --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/pos/${language1}/flattened_dev-${language1}.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/pos/${language1}/dep/ --task pos
-    srun python convert_galactic_to_corpus.py --galactic_file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/tatoeba/${language1}/dep/dep_flattened_${language1}-${language1}~${language2}@N~${language2}@V.conllu
+    srun python convert_galactic_to_corpus.py --galactic_file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/tatoeba/${language1}/dep/dep_flattened_${language1}-${language1}~${language2}@N~${language2}@V.conllu --supervised_dataset /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/tatoeba/${language1}/${language1}.json --index_selector /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/tatoeba/${language1}/dep/selected_indices_flattened_${language1}.json
 done;
 done;
 

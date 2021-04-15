@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## April 2021
+1. Added script `run_experiments.py` to help running commands for different tasks.
+1. `tatoeba` now uses a batch size of `1` so that the number of pad tokens is not a signal the model can exploit.
+1. Added tokenizer files for different languages.
 1. Added `preprocessing/qa` for converting SQuAD files to HF json.
 1. Added `transformers/examples/question-answering/run_qa_synthetic.py`.
 1. Downloaded FQuAD data from [here](https://fquad.illuin.tech). There is also an alternate dataset [here](https://github.com/Alikabbadj/French-SQuAD).

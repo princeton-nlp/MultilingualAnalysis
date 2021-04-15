@@ -33,7 +33,9 @@
 
 # srun python convert_dataset_to_dependency.py --language ar --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/ar/flattened_train_ar.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/ar/dep/ --task xnli &
 
-srun python convert_dataset_to_dependency.py --language hi --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/hi/flattened_train_hi.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/hi/dep/ --task xnli &
+# srun python convert_dataset_to_dependency.py --language hi --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/hi/flattened_train_hi.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/hi/dep/ --task xnli &
+
+srun python convert_dataset_to_dependency.py --language en --data /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/flattened_train_en.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xnli/en/dep/ --task xnli &
 
 wait;
 

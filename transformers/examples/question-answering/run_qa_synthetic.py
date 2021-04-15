@@ -493,8 +493,10 @@ def main():
         return metric.compute(predictions=p.predictions, references=p.label_ids)
 
     # Make synthetic language modifications if necessary
-    train_dataset = modify_inputs_synthetic(data_args, training_args, train_dataset, task_name=data_args.task_name, task_type=data_args.task_name, tokenizer=tokenizer)
-    validation_dataset = modify_inputs_synthetic(data_args, training_args, validation_dataset, task_name=data_args.task_name, task_type=data_args.task_name, tokenizer=tokenizer)        
+    if training_args.do_train:
+        train_dataset = modify_inputs_synthetic(data_args, training_args, train_dataset, task_name=data_args.task_name, task_type=data_args.task_name, tokenizer=tokenizer)
+    if training_args.do_eval:
+        validation_dataset = modify_inputs_synthetic(data_args, training_args, validation_dataset, task_name=data_args.task_name, task_type=data_args.task_name, tokenizer=tokenizer)        
 
     # Initialize our Trainer
     trainer = QuestionAnsweringTrainer(

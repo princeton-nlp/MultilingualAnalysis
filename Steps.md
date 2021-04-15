@@ -69,3 +69,12 @@
 
 #### XQuAD
 1. Convert dataset to correct JSON format - `python convert_xquad_to_json.py --file /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xquad/en/old/train_en.json --save_dir /n/fs/nlp-asd/asd/asd/Projects/Multilingual/data/xquad/en`
+
+### Running experiments with run_experiment.py (tested locally)
+Look at [Debug.md](the debug file) for some example commands, especially for TATOEBA.
+1. For MLM: `python run_experiments.py --task mlm --run_type monolingual --language en --other_args output_dir=../data/model_outputs/wikitext/debug/ run_name=en_invert invert_word_order word_modification=replace`
+1. For XNLI: `python run_experiments.py --task xnli --run_type monolingual --language en --other_args output_dir=../data/model_outputs/wikitext/debug/ run_name=en_invert invert_word_order word_modification=replace model_name_or_path=../data/model_outputs/wikitext/debug/mlm`
+1. For NER: `python run_experiments.py --task ner --run_type monolingual --language en --other_args output_dir=../data/model_outputs/wikitext/debug/ run_name=en_invert invert_word_order word_modification=replace model_name_or_path=../data/model_outputs/wikitext/debug/mlm`
+1. For POS: `python run_experiments.py --task pos --run_type monolingual --language en --other_args output_dir=../data/model_outputs/wikitext/debug/ run_name=en_invert invert_word_order word_modification=replace model_name_or_path=../data/model_outputs/wikitext/debug/mlm`
+1. For Tatoeba: `python run_experiments.py --task tatoeba --run_type monolingual --language en --other_args output_dir=../data/model_outputs/wikitext/debug/ run_name=en_invert invert_word_order word_modification=replace model_name_or_path=../data/model_outputs/wikitext/debug/mlm`
+1. For XQuAD: `python run_experiments.py --task xquad --run_type monolingual --language en --other_args output_dir=../data/model_outputs/wikitext/debug/ run_name=en_invert invert_word_order word_modification=replace model_name_or_path=../data/model_outputs/wikitext/debug/mlm`

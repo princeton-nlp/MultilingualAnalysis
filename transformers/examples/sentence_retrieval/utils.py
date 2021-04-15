@@ -12,16 +12,21 @@ def modify_config_sentence_retrieval(config):
     return config
 
 def get_embeddings_word_modif(trainer, data_args, source_or_target):
+    # We will use a batch size of 1
+    # so that the number of pad tokens is not a signal for the right answer
+    batch_size = 1
     if source_or_target == 'source':
         dataloader = DataLoader(
                                 trainer.train_dataset,
-                                batch_size=trainer.args.train_batch_size,
+                                # batch_size=trainer.args.train_batch_size,
+                                batch_size=batch_size,
                                 collate_fn=trainer.data_collator
                                 )
     elif source_or_target == 'target':
         dataloader = DataLoader(
                                 trainer.eval_dataset,
-                                batch_size=trainer.args.train_batch_size,
+                                # batch_size=trainer.args.train_batch_size,
+                                batch_size=batch_size,
                                 collate_fn=trainer.data_collator
                                 )
     else:

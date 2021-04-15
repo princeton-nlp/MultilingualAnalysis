@@ -279,7 +279,7 @@ def modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_na
     return create_modified_dataset(data_args, map_function, datasets)
 
 def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm', tokenizer=None):
-    if task_type in ['glue', 'xnli', 'ner', 'pos', 'qa']:
+    if task_type in ['glue', 'xnli', 'ner', 'pos', 'qa', 'tatoeba']:
         data_args.preprocessing_num_workers = None
     if data_args.permute_vocabulary:
         datasets = modify_inputs_permute(data_args, training_args, datasets, task_name)

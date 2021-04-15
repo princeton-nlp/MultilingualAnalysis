@@ -435,7 +435,7 @@ def main():
     # Make synthetic language modifications if necessary
     if not data_args.bilingual:
         source_datasets = deepcopy(tokenized_datasets)
-        target_datasets = modify_inputs_synthetic(data_args, training_args, tokenized_datasets, tokenizer=tokenizer)
+        target_datasets = modify_inputs_synthetic(data_args, training_args, tokenized_datasets, tokenizer=tokenizer, task_name='tatoeba', task_type='tatoeba')
     else:
         source_datasets = tokenized_datasets_source
         target_datasets = tokenized_datasets_target
@@ -445,7 +445,7 @@ def main():
         model=model,
         args=training_args,
         data_args=data_args,
-        # HACK: Using train_dataset as source and eval_dataset as validation
+        # HACK: Using train_dataset as source and eval_dataset as target
         train_dataset=source_datasets["train"],
         eval_dataset=target_datasets["train"],
         tokenizer=tokenizer,
