@@ -79,7 +79,7 @@ def get_mlm_command(args, arg_dict):
 
     # Default hyperparameters
     default_hyperparams = {
-        'warmup_steps': '10000', 'learning_rate': '1e-4', 'save_steps': '10000', 'max_seq_length': 512,
+        'warmup_steps': '10000', 'learning_rate': '1e-4', 'save_steps': '50000', 'max_seq_length': 512,
         'logging_steps': '50', 'overwrite_output_dir': None, 'model_type': 'roberta',
         'config_name': 'config/{}/roberta_8/config.json'.format(args.language), 'tokenizer_name': 'config/{}/roberta_8/'.format(args.language),
         'do_train': None, 'do_eval': None
