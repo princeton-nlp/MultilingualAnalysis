@@ -266,14 +266,18 @@ def modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_na
     if data_args.one_to_one_file is not None:
         dont_modify = np.load(open(data_args.one_to_one_file, 'rb'))
 
-    # Step 1: Create map function for modification
-    def map_function(examples):
-        for j in range(len(examples['input_ids'])):
-            if data_args.one_to_one_file is not None:
+        # Step 1: Create map function for modification
+        def map_function(examples):
+            for j in range(len(examples['input_ids'])):
                 examples['input_ids'][j] = [examples['input_ids'][j][i] if (examples['input_ids'][j][i] in special_tokens or examples['input_ids'][j][i] in dont_modify) else (examples['input_ids'][j][i] + vocab_size)  for i in range(len(examples['input_ids'][j]))]
-            else:
+            return examples
+    else:
+        # Step 1: Create map function for modification
+        def map_function(examples):
+            for j in range(len(examples['input_ids'])):
                 examples['input_ids'][j] = [examples['input_ids'][j][i] if (examples['input_ids'][j][i] in special_tokens) else (examples['input_ids'][j][i] + vocab_size)  for i in range(len(examples['input_ids'][j]))]
-        return examples
+            return examples
+
 
     # Step 2: Return modified dataset
     return create_modified_dataset(data_args, map_function, datasets)

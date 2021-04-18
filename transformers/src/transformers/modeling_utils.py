@@ -801,6 +801,7 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
 
         logger.info("Entered model.save_pretrained.")
 
+        # NOTE: Remove the following block.
         # if getattr(self.config, "xla_device", False) and is_torch_tpu_available():
         #     import torch_xla.core.xla_model as xm
 
@@ -812,7 +813,7 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
             # logger.info("Saved training_args")
             # # xm.save takes care of saving only from master
             # xm.save(state_dict, output_model_file)
-            
+
         # Saving the configuration
         if save_config:
             logger.info("Saving configuration.")
