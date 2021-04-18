@@ -770,7 +770,7 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
 
         self.base_model._prune_heads(heads_to_prune)
 
-    def save_pretrained(self, save_directory: Union[str, os.PathLike]):
+    def save_pretrained(self, save_directory: Union[str, os.PathLike], save_config=True, save_function=torch.save):
         """
         Save a model and its configuration file to a directory, so that it can be re-loaded using the
         `:func:`~transformers.PreTrainedModel.from_pretrained`` class method.
@@ -799,17 +799,32 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
         # If we save using the predefined names, we can load using `from_pretrained`
         output_model_file = os.path.join(save_directory, WEIGHTS_NAME)
 
-        if getattr(self.config, "xla_device", False) and is_torch_tpu_available():
-            import torch_xla.core.xla_model as xm
+        logger.info("Entered model.save_pretrained.")
 
-            if xm.is_master_ordinal():
-                # Save configuration file
-                model_to_save.config.save_pretrained(save_directory)
-            # xm.save takes care of saving only from master
-            xm.save(state_dict, output_model_file)
-        else:
+        # if getattr(self.config, "xla_device", False) and is_torch_tpu_available():
+        #     import torch_xla.core.xla_model as xm
+
+            # if xm.is_master_ordinal():
+            #     logger.info("Saving configuration.")
+            #     # Save configuration file
+            #     model_to_save.config.save_pretrained(save_directory)
+            # xm.rendezvous("saved_configuration")
+            # logger.info("Saved training_args")
+            # # xm.save takes care of saving only from master
+            # xm.save(state_dict, output_model_file)
+            
+        # Saving the configuration
+        if save_config:
+            logger.info("Saving configuration.")
             model_to_save.config.save_pretrained(save_directory)
-            torch.save(state_dict, output_model_file)
+
+        # Save the model
+        logger.info("Saving model.")
+        save_function(state_dict, output_model_file)
+            
+        # else:
+        #     model_to_save.config.save_pretrained(save_directory)
+        #     torch.save(state_dict, output_model_file)
 
         logger.info("Model weights saved in {}".format(output_model_file))
 

@@ -1231,12 +1231,14 @@ class TrainerWordModifications:
         # Save a trained model and configuration using `save_pretrained()`.
         # They can then be reloaded using `from_pretrained()`
         xm.rendezvous("saving_checkpoint")
+        logger.info("Saved training_args")
         if not isinstance(self.model, PreTrainedModel):
             logger.info("Trainer.model is not a `PreTrainedModel`, only saving its state dict.")
             state_dict = self.model.state_dict()
             xm.save(state_dict, os.path.join(output_dir, WEIGHTS_NAME))
         else:
-            self.model.save_pretrained(output_dir)
+            # self.model.save_pretrained(output_dir)
+            self.model.save_pretrained(output_dir, save_config=self.is_world_process_zero(), save_function=xm.save)
         if self.tokenizer is not None and self.is_world_process_zero():
             self.tokenizer.save_pretrained(output_dir)
 
