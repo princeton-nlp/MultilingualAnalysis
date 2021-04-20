@@ -275,6 +275,12 @@ class TrainerWordModifications:
         # Create output directory if needed
         if self.is_world_process_zero():
             os.makedirs(self.args.output_dir, exist_ok=True)
+            # Make all the other directories required as well
+            if args.max_steps > 0:
+                if args.save_steps > 0:
+                    for check in range(args.save_steps, args.max_steps, args.save_steps):
+                        new_path = os.path.join(self.args.output_dir, 'checkpoint-{}'.format(check))
+                        os.makedirs(new_path, exist_ok=True)
         if is_torch_tpu_available() and isinstance(self.model, PreTrainedModel):
             # Set an xla_device flag on the model's config.
             # We'll find a more elegant and not need to do this in the future.
@@ -1236,7 +1242,7 @@ class TrainerWordModifications:
             logger.info("Saved training_args.")
             torch.save(self.args, os.path.join(output_dir, "training_args.bin"))
             logger.info("Saved the training file.")
-        logger.info("Saved training_args.")
+        logger.info("Training_args block done.")
 
         # Save a trained model and configuration using `save_pretrained()`.
         # They can then be reloaded using `from_pretrained()`
