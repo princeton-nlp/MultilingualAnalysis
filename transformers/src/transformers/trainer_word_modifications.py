@@ -1233,7 +1233,9 @@ class TrainerWordModifications:
         if self.is_world_process_zero():
             logger.info("Saving training_args.")
             os.makedirs(output_dir, exist_ok=True)
+            logger.info("Saved training_args.")
             torch.save(self.args, os.path.join(output_dir, "training_args.bin"))
+            logger.info("Saved the training file.")
         logger.info("Saved training_args.")
 
         # Save a trained model and configuration using `save_pretrained()`.
