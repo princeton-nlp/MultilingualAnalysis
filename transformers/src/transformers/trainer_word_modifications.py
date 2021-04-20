@@ -1224,20 +1224,28 @@ class TrainerWordModifications:
         output_dir = output_dir if output_dir is not None else self.args.output_dir
         logger.info("Saving model checkpoint to %s", output_dir)
 
-        if xm.is_master_ordinal():
+        # # TODO: Remove the following block
+        # if xm.is_master_ordinal():
+        #     os.makedirs(output_dir, exist_ok=True)
+        #     torch.save(self.args, os.path.join(output_dir, "training_args.bin"))
+        # xm.rendezvous("saving_checkpoint")
+
+        if self.is_world_process_zero():
+            logger.info("Saving training_args.")
             os.makedirs(output_dir, exist_ok=True)
             torch.save(self.args, os.path.join(output_dir, "training_args.bin"))
+        logger.info("Saved training_args.")
 
         # Save a trained model and configuration using `save_pretrained()`.
         # They can then be reloaded using `from_pretrained()`
-        xm.rendezvous("saving_checkpoint")
-        logger.info("Saved training_args")
+
         if not isinstance(self.model, PreTrainedModel):
             logger.info("Trainer.model is not a `PreTrainedModel`, only saving its state dict.")
             state_dict = self.model.state_dict()
             xm.save(state_dict, os.path.join(output_dir, WEIGHTS_NAME))
         else:
             # self.model.save_pretrained(output_dir)
+            logger.info("In else condition.")
             self.model.save_pretrained(output_dir, save_config=self.is_world_process_zero(), save_function=xm.save)
         if self.tokenizer is not None and self.is_world_process_zero():
             self.tokenizer.save_pretrained(output_dir)

@@ -779,10 +779,13 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
             save_directory (:obj:`str` or :obj:`os.PathLike`):
                 Directory to which to save. Will be created if it doesn't exist.
         """
+        logger.info("Entered model.save_pretrained.")
         if os.path.isfile(save_directory):
             logger.error("Provided path ({}) should be a directory, not a file".format(save_directory))
             return
+        logger.info("Creating output directory.")
         os.makedirs(save_directory, exist_ok=True)
+        logger.info("Created output directory.")
 
         # Only save the model itself if we are using distributed training
         model_to_save = self.module if hasattr(self, "module") else self
@@ -790,10 +793,12 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
         # Attach architecture to the config
         model_to_save.config.architectures = [model_to_save.__class__.__name__]
 
+        logger.info("Saving state dict.")
         state_dict = model_to_save.state_dict()
 
         # Handle the case where some state_dict keys shouldn't be saved
         if self._keys_to_ignore_on_save is not None:
+            logger.info("Ignoring keys:{}".format(self._keys_to_ignore_on_save))
             state_dict = {k: v for k, v in state_dict.items() if k not in self._keys_to_ignore_on_save}
 
         # If we save using the predefined names, we can load using `from_pretrained`
@@ -801,7 +806,7 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
 
         logger.info("Entered model.save_pretrained.")
 
-        # NOTE: Remove the following block.
+        # TODO: Remove the following block.
         # if getattr(self.config, "xla_device", False) and is_torch_tpu_available():
         #     import torch_xla.core.xla_model as xm
 
