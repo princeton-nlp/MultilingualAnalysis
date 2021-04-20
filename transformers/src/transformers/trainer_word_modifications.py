@@ -278,7 +278,7 @@ class TrainerWordModifications:
             # Make all the other directories required as well
             if args.max_steps > 0:
                 if args.save_steps > 0:
-                    for check in range(args.save_steps, args.max_steps, args.save_steps):
+                    for check in range(args.save_steps, args.max_steps+1, args.save_steps):
                         new_path = os.path.join(self.args.output_dir, 'checkpoint-{}'.format(check))
                         os.makedirs(new_path, exist_ok=True)
         if is_torch_tpu_available() and isinstance(self.model, PreTrainedModel):
