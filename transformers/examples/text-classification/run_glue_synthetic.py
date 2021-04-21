@@ -164,7 +164,14 @@ class DataTrainingArguments:
         metadata={
             "help": "When used with one-to-one mapping, also changes the [CLS] and [SEP] token."
         },
-    )       
+    )
+    # Permutation
+    permute_words: bool = field(
+        default=False,
+        metadata={
+            "help": "Permute the words of the sentence randomly. Different permutation for each sentence."
+        },
+    )    
 
     def __post_init__(self):
         if self.task_name is not None:

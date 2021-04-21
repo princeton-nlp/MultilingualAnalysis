@@ -186,6 +186,13 @@ class DataTrainingArguments:
             "help": "When used with one-to-one mapping, also changes the [CLS] and [SEP] token. Does not change the PAD token."
         },
     )
+    # Permutation
+    permute_words: bool = field(
+        default=False,
+        metadata={
+            "help": "Permute the words of the sentence randomly. Different permutation for each sentence."
+        },
+    )    
 
     def __post_init__(self):
         if self.dataset_name is None and self.train_file is None and self.validation_file is None:

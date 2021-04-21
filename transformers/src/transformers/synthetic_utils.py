@@ -8,6 +8,7 @@ import numpy as np
 from tqdm import tqdm
 from datasets import concatenate_datasets
 from copy import deepcopy
+import random
 
 def create_modified_dataset(data_args, map_function, datasets):
     # Create new dataset using map function
@@ -282,6 +283,75 @@ def modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_na
     # Step 2: Return modified dataset
     return create_modified_dataset(data_args, map_function, datasets)
 
+
+def modify_inputs_permute_sentence(data_args, training_args, datasets, task_name, tokenizer=None, negative_label=None):
+    # Check the arguments
+    assert data_args.word_modification == 'add' or data_args.word_modification == 'replace', "Illegal option for argument word_modification"
+
+    # This modification doesn't work for qa
+    assert task_name != 'qa', "Permutation doesn't work for QA."
+    
+    def map_function(examples):
+        def permute_list(sent, labels=None):
+            if labels is not None:
+                sent, labels = zip(*random.sample(list(zip(sent, labels)), len(sent)))
+                return sent, labels
+            else:
+                sent = random.sample(sent, len(sent))
+                return sent
+        
+        def permute_substr(sent_indices, sent_labels=None):
+            temp_sent_indices = deepcopy(sent_indices)
+            temp_sent_labels = deepcopy(sent_labels) if sent_labels is not None else None
+            start_idx = 0
+            current_idx = 0
+
+            sentence_length = len(sent_indices)
+
+            # Indices to consider for [SEP] and [CLS]
+            if tokenizer:
+                sep_cls = [tokenizer.convert_tokens_to_ids(tokenizer.cls_token), tokenizer.convert_tokens_to_ids(tokenizer.sep_token)]
+            else:
+                # If tokenizer is not passed, then use the default RoBERTa tokenizer tokens
+                sep_cls = [0, 2]
+
+            for i in range(sentence_length):
+                if (sent_indices[i] in sep_cls) or (i == (sentence_length - 1)):
+                    # flip sentence on start_idx, i
+                    if i > start_idx:
+                        if (i == (sentence_length - 1)) and (not (sent_indices[i] in sep_cls)):
+                            if sent_labels is not None:
+                                sent_indices[start_idx: i+1], sent_labels[start_idx: i+1] = permute_list(temp_sent_indices[start_idx: i+1], labels=temp_sent_labels[start_idx: i+1])
+                            else:
+                                sent_indices[start_idx: i+1] = permute_list(temp_sent_indices[start_idx: i+1])
+                        else:
+                            if sent_labels is not None:
+                                sent_indices[start_idx: i], sent_labels[start_idx: i] = permute_list(temp_sent_indices[start_idx: i], labels=temp_sent_labels[start_idx: i])
+                            else:
+                                sent_indices[start_idx: i] = permute_list(temp_sent_indices[start_idx: i])
+                    start_idx = i+1
+            if sent_labels is not None:
+                return sent_indices, sent_labels
+            else:
+                return sent_indices
+
+        for j in range(len(examples['input_ids'])):
+            example_length = len(examples['input_ids'][j])
+            if task_name in ['ner', 'pos']:
+                # If it's a token classification task, flip the labels too
+                modified_examples, modified_labels = permute_substr(examples['input_ids'][j], sent_labels=examples['labels'][j])
+                examples['input_ids'][j] = [modified_examples[i] for i in range(example_length)]
+                examples['labels'][j] = [modified_labels[i] for i in range(example_length)]
+            else:
+                modified_examples = permute_substr(examples['input_ids'][j])
+                examples['input_ids'][j] = [modified_examples[i] for i in range(example_length)]
+
+        return examples
+
+    # Step 2: Return modified dataset
+    return create_modified_dataset(data_args, map_function, datasets)
+
+
 def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm', tokenizer=None):
     if task_type in ['glue', 'xnli', 'ner', 'pos', 'qa', 'tatoeba']:
         data_args.preprocessing_num_workers = None
@@ -293,6 +363,8 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
         datasets = modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer)
     if data_args.one_to_one_mapping:
         datasets = modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer)
+    if data_args.permute_words:
+        datasets = modify_inputs_permute_sentence(data_args, training_args, datasets, task_name, tokenizer)
 
     return datasets
 

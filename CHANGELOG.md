@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## April 2021
+1. Added flag `--permute_words` to permute the words of a sentence randomly
 1. Added script `run_experiments.py` to help running commands for different tasks.
 1. `tatoeba` now uses a batch size of `1` so that the number of pad tokens is not a signal the model can exploit.
 1. Added tokenizer files for different languages.
