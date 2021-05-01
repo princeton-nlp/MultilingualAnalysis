@@ -79,7 +79,7 @@ def get_mlm_command(args, arg_dict):
 
     # Default hyperparameters
     default_hyperparams = {
-        'warmup_steps': '10000', 'learning_rate': '1e-4', 'save_steps': '1000000', 'max_seq_length': 512,
+        'warmup_steps': '10000', 'learning_rate': '1e-4', 'save_steps': '-1', 'max_seq_length': 512,
         'logging_steps': '50', 'overwrite_output_dir': None, 'model_type': 'roberta',
         'config_name': 'config/{}/roberta_8/config.json'.format(args.language), 'tokenizer_name': 'config/{}/roberta_8/'.format(args.language),
         'do_train': None, 'do_eval': None
@@ -124,7 +124,7 @@ def get_xnli_command(args, arg_dict):
 
     # Default hyperparameters
     default_hyperparams = {
-        'learning_rate': '2e-5', 'save_steps': '10000', 'max_seq_length': 128,
+        'learning_rate': '2e-5', 'save_steps': '-1', 'max_seq_length': 128,
         'logging_steps': '50', 'overwrite_output_dir': None,
         'do_train': None, 'do_eval': None
     }
@@ -161,7 +161,7 @@ def get_ner_command(args, arg_dict):
     # Default hyperparameters
     # max_seq_length argument is not accepted for some reason
     default_hyperparams = {
-        'learning_rate': '2e-5', 'save_steps': '10000', 'task_name': args.task,
+        'learning_rate': '2e-5', 'save_steps': '-1', 'task_name': args.task,
         'logging_steps': '50', 'overwrite_output_dir': None,
         'do_train': None, 'do_eval': None
     }
@@ -198,7 +198,7 @@ def get_pos_command(args, arg_dict):
     # Default hyperparameters
     # max_seq_length argument is not accepted for some reason
     default_hyperparams = {
-        'learning_rate': '2e-5', 'save_steps': '10000', 'task_name': args.task,
+        'learning_rate': '2e-5', 'save_steps': '-1', 'task_name': args.task,
         'logging_steps': '50', 'overwrite_output_dir': None,
         'do_train': None, 'do_eval': None
     }
@@ -282,7 +282,7 @@ def get_xquad_command(args, arg_dict):
 
     # Default hyperparameters
     default_hyperparams = {
-        'learning_rate': '2e-5', 'save_steps': '10000', 'max_seq_length': 384,
+        'learning_rate': '3e-5', 'save_steps': '-1', 'max_seq_length': 384,
         'doc_stride': 128, 'warmup_steps': 500, 'weight_decay': 0.0001,
         'logging_steps': '50', 'overwrite_output_dir': None,
         'do_train': None, 'do_eval': None

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
+## May 2021
+1. Added bilingual tokenizers (`config/bilingual`), and a file for creating them (`preprocessing/combine_tokenizers.py`).
+
 ## April 2021
 1. Added file `preprocessing/combine_tokenizers.py` to combine the `vocab.json` and `merges.txt` file of two tokenizers. Duplicates are removed.
 1. Added flag `--permute_words` to permute the words of a sentence randomly
