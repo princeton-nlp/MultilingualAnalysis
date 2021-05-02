@@ -192,7 +192,7 @@ class DataTrainingArguments:
         metadata={
             "help": "Permute the words of the sentence randomly. Different permutation for each sentence."
         },
-    )    
+    )
 
     def __post_init__(self):
         if self.dataset_name is None and self.train_file is None and self.validation_file is None:
