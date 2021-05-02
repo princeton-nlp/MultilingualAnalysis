@@ -475,8 +475,15 @@ def main():
     logger.info('********')
 
     # Log the accuracy using wandb
-    log_dict = {'accuracy': accuracy}
-    trainer.log(log_dict)
+    if is_wandb_available():
+        # Initialize wandb
+        wandb.init(
+            project=os.getenv("WANDB_PROJECT", "huggingface"),
+            config=**data_args.to_sanitized_dict(),
+            name=training_args.run_name,
+        )        
+        log_dict = {'accuracy': accuracy}
+        wandb.log(log_dict)
 
 
 def _mp_fn(index):
