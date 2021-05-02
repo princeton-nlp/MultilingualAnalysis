@@ -8,7 +8,7 @@ MODEL_DIR="word_modif_0_15"
 MODEL="../../../../bucket/model_outputs/${LANG}/${MODEL_DIR}/mlm"
 OUTPUT_DIR="../../../../bucket/model_outputs/${LANG}/${MODEL_DIR}/"
 RUN_NAME="${LANG}_${MODEL_DIR}_"
-ZERO_SHOT_ADD=" --modify_words --modify_words_probability 0.15 --word_modification replace"
+ZERO_SHOT_ADD="--modify_words --modify_words_probability 0.15 --word_modification replace"
 
 ##### XNLI #####
 TASK='xnli'

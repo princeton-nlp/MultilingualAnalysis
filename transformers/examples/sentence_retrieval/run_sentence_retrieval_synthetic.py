@@ -44,6 +44,7 @@ from transformers import (
 from transformers.trainer_utils import is_main_process
 
 # Synthetic languages
+from transformers import is_wandb_available
 from transformers import modify_inputs_synthetic
 from transformers.synthetic_utils import modify_config
 from utils import modify_config_sentence_retrieval, get_embeddings_word_modif, evaluate_embeddings
@@ -472,6 +473,10 @@ def main():
     logger.info('********')
     logger.info('The accuracy is: {}%'.format(accuracy))
     logger.info('********')
+
+    # Log the accuracy using wandb
+    log_dict = {'accuracy': accuracy}
+    trainer.log(log_dict)
 
 
 def _mp_fn(index):
