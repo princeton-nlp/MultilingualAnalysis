@@ -476,10 +476,11 @@ def main():
 
     # Log the accuracy using wandb
     if is_wandb_available():
+        import wandb
         # Initialize wandb
         wandb.init(
             project=os.getenv("WANDB_PROJECT", "huggingface"),
-            config=**data_args.to_sanitized_dict(),
+            config=vars(data_args),
             name=training_args.run_name,
         )        
         log_dict = {'accuracy': accuracy}
