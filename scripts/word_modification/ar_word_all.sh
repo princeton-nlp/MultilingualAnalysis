@@ -1,0 +1,9 @@
+./ar_inverted.sh
+./ar_word_modif_15.sh
+./ar_word_modif_35.sh
+./ar_one_to_one_25.sh
+./ar_one_to_one_50.sh
+./ar_one_to_one_75.sh
+./ar_one_to_one_100.sh
+./ar_one_to_one_100_special.sh
+./ar_permute.sh

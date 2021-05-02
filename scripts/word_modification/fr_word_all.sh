@@ -1,0 +1,9 @@
+./fr_inverted.sh
+./fr_word_modif_15.sh
+./fr_word_modif_35.sh
+./fr_one_to_one_25.sh
+./fr_one_to_one_50.sh
+./fr_one_to_one_75.sh
+./fr_one_to_one_100.sh
+./fr_one_to_one_100_special.sh
+./fr_permute.sh
