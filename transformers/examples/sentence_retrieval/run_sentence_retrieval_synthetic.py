@@ -217,7 +217,7 @@ class DataTrainingArguments:
     bilingual: bool = field(
         default=False,
         metadata={
-            "help": "Is the evluation for syntax modification or word modification."
+            "help": "Is the evaluation for syntax modification or word modification. Use --bilingual for everything other than word modifications."
         },
     )
     pool_type: str = field(

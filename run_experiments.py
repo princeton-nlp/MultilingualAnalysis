@@ -162,7 +162,7 @@ def get_ner_command(args, arg_dict):
     # max_seq_length argument is not accepted for some reason
     default_hyperparams = {
         'learning_rate': '2e-5', 'save_steps': '-1', 'task_name': args.task,
-        'logging_steps': '50', 'overwrite_output_dir': None,
+        'logging_steps': '500', 'overwrite_output_dir': None,
         'do_train': None, 'do_eval': None
     }
     
@@ -199,7 +199,7 @@ def get_pos_command(args, arg_dict):
     # max_seq_length argument is not accepted for some reason
     default_hyperparams = {
         'learning_rate': '2e-5', 'save_steps': '-1', 'task_name': args.task,
-        'logging_steps': '50', 'overwrite_output_dir': None,
+        'logging_steps': '500', 'overwrite_output_dir': None,
         'do_train': None, 'do_eval': None
     }
     
