@@ -11,12 +11,27 @@ from copy import deepcopy
 import random
 
 def create_modified_dataset(data_args, map_function, datasets):
-    # Create new dataset using map function
-    modified_dataset = datasets.map(
-        map_function,
-        batched=True,
-        num_proc=data_args.preprocessing_num_workers
-    )
+    # # Create new dataset using map function
+    # modified_dataset = datasets.map(
+    #     map_function,
+    #     batched=True,
+    #     num_proc=data_args.preprocessing_num_workers
+    # )
+
+    if type(datasets) is dict:
+        modified_dataset = {}
+        for key in datasets.keys():
+            modified_dataset[key] = datasets[key].map(
+                map_function,
+                batched=True,
+                num_proc=data_args.preprocessing_num_workers
+            )
+    else:
+        modified_dataset = datasets.map(
+            map_function,
+            batched=True,
+            num_proc=data_args.preprocessing_num_workers
+        )
     
     # Step 3: Check if a modified dataset needs to be ADDED or if it should be REPLACED
     if data_args.word_modification == 'add':
@@ -355,6 +370,47 @@ def modify_inputs_permute_sentence(data_args, training_args, datasets, task_name
 def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, task_type='mlm', tokenizer=None):
     if task_type in ['glue', 'xnli', 'ner', 'pos', 'qa', 'tatoeba']:
         data_args.preprocessing_num_workers = None
+    
+    # If multiple word modifications are being performed, then handle them separately
+    if data_args.one_to_one_mapping and data_args.invert_word_order:
+        original_datasets = deepcopy(datasets)
+        original_word_modification = data_args.word_modification
+        data_args.word_modification = 'replace'
+        datasets = modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer)
+        datasets = modify_inputs_invert(data_args, training_args, datasets, task_name, tokenizer)
+
+        if original_word_modification == 'replace':
+            return datasets
+        elif original_word_modification == 'add':
+            if 'keys' in dir(datasets):
+                # Concatenate the two datasets
+                combined_dataset = {}
+
+                for key in datasets.keys():
+                    combined_dataset[key] = concatenate_datasets([original_datasets[key], datasets[key]])
+                
+                return combined_dataset
+
+    # If multiple word modifications are being performed, then handle them separately
+    if data_args.one_to_one_mapping and data_args.permute_words:
+        original_datasets = deepcopy(datasets)
+        original_word_modification = data_args.word_modification
+        data_args.word_modification = 'replace'
+        datasets = modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer)
+        datasets = modify_inputs_permute_sentence(data_args, training_args, datasets, task_name, tokenizer)
+
+        if original_word_modification == 'replace':
+            return datasets
+        elif original_word_modification == 'add':
+            if 'keys' in dir(datasets):
+                # Concatenate the two datasets
+                combined_dataset = {}
+
+                for key in datasets.keys():
+                    combined_dataset[key] = concatenate_datasets([original_datasets[key], datasets[key]])
+                
+                return combined_dataset                
+
     if data_args.permute_vocabulary:
         datasets = modify_inputs_permute(data_args, training_args, datasets, task_name)
     if data_args.modify_words:

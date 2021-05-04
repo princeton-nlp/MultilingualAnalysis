@@ -39,7 +39,7 @@ def convert_to_document_relative_ratio(args):
     # f.close()
 
     # Sample a `ratio` fraction of lines from `synthetic`
-    synthetic = sample(synthetic, int(ratio * len(synthetic)))
+    synthetic = sample(synthetic, int(args.ratio * len(synthetic)))
 
     # Store the synthetic file
     synthetic_file = os.path.join(args.save_dir, '{}_{}'.format('synthetic', original_file_name))
