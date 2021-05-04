@@ -2,7 +2,7 @@
 # Author: Ameet Deshpande
 
 # Define some global variables
-LANG="en"
+LANG="hi"
 TARGET="fr"
 EVAL="_zero"
 MODEL_DIR="syntax_modif_${TARGET}"

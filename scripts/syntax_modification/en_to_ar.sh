@@ -3,7 +3,7 @@
 
 # Define some global variables
 LANG="en"
-TARGET="fr"
+TARGET="ar"
 EVAL="_zero"
 MODEL_DIR="syntax_modif_${TARGET}"
 MODEL="../../../../bucket/model_outputs/${LANG}/${MODEL_DIR}/mlm"

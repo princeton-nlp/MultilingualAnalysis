@@ -2,8 +2,8 @@
 # Author: Ameet Deshpande
 
 # Define some global variables
-LANG="en"
-TARGET="fr"
+LANG="fr"
+TARGET="en"
 EVAL="_zero"
 MODEL_DIR="syntax_modif_${TARGET}"
 MODEL="../../../../bucket/model_outputs/${LANG}/${MODEL_DIR}/mlm"
