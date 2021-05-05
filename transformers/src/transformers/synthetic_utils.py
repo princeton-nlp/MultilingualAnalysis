@@ -409,7 +409,13 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
                 for key in datasets.keys():
                     combined_dataset[key] = concatenate_datasets([original_datasets[key], datasets[key]])
                 
-                return combined_dataset                
+                return combined_dataset
+
+    # If we need to sample only a part of the dataset, handle it separately
+    if data_args.target_dataset_ratio is not None:
+        original_datasets = deepcopy(datasets)
+        original_word_modification = data_args.word_modification
+        data_args.word_modification = 'replace'
 
     if data_args.permute_vocabulary:
         datasets = modify_inputs_permute(data_args, training_args, datasets, task_name)
@@ -421,6 +427,27 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
         datasets = modify_inputs_one_to_one_mapping(data_args, training_args, datasets, task_name, tokenizer)
     if data_args.permute_words:
         datasets = modify_inputs_permute_sentence(data_args, training_args, datasets, task_name, tokenizer)
+
+    # If we need to sample only a part of the dataset, handle it separately
+    if data_args.target_dataset_ratio is not None:
+        # Subsample the original dataset
+        for key in datasets.keys():
+            if key == 'train':
+                select_indices = random.sample(range(len(datasets[key])), int(data_args.target_dataset_ratio * len(datasets[key])))
+                datasets[key] = datasets[key].select(select_indices)
+        
+        # Combine with original datasets
+        if original_word_modification == 'replace':
+            return datasets
+        elif original_word_modification == 'add':
+            if 'keys' in dir(datasets):
+                # Concatenate the two datasets
+                combined_dataset = {}
+
+                for key in datasets.keys():
+                    combined_dataset[key] = concatenate_datasets([original_datasets[key], datasets[key]])
+                
+                return combined_dataset   
 
     return datasets
 

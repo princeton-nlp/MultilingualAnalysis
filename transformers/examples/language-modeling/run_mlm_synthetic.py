@@ -213,6 +213,13 @@ class DataTrainingArguments:
             "help": "Permute the words of the sentence randomly. Different permutation for each sentence."
         },
     )
+    # Dataset ratio
+    target_dataset_ratio: float = field(
+        default=None,
+        metadata={
+            "help": "When less than one, use target_dataset_ratio * original dataset size."
+        },
+    )    
 
     def __post_init__(self):
         if self.dataset_name is None and self.train_file is None and self.validation_file is None:
