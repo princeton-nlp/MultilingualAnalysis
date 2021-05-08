@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## May 2021
+1. Added transliteration config files in `config/bilingual`.
 1. Added `preprocessing/transliteration` for transliteration experiments.
 1. Added `run_mlm_synthetic_transitive.py` for transitive syntax modification experiments.
 1. Added `preprocessing/monolingual/create_relative_ratio_datasets.py`.
