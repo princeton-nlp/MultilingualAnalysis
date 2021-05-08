@@ -1,0 +1,2 @@
+indictrans < ../../../data/dependency_parse_data/hi/valid.txt --s hin --t eng --build-lookup > ../../../data/transliteration/trans_hindi_valid.txt
+indictrans < ../../../data/dependency_parse_data/hi/train.txt --s hin --t eng --build-lookup > ../../../data/transliteration/trans_hindi_train.txt
