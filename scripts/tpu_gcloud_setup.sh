@@ -53,6 +53,7 @@ function RestartVM {
     export WANDB_ENTITY="ameet-1997"
     export WANDB_PROJECT="multilingual_synthetic"
     export WANDB_PROJECT="multilingual_synthetic_downstream"
+    export WANDB_PROJECT="multilingual_analysis"
 }
 
 function Wandb {
