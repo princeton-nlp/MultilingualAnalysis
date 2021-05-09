@@ -412,7 +412,7 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
                 return combined_dataset
 
     # If we need to sample only a part of the dataset, handle it separately
-    if data_args.target_dataset_ratio is not None:
+    if 'target_dataset_ratio' in dir(data_args) and data_args.target_dataset_ratio is not None:
         original_datasets = deepcopy(datasets)
         original_word_modification = data_args.word_modification
         data_args.word_modification = 'replace'
@@ -429,7 +429,7 @@ def modify_inputs_synthetic(data_args, training_args, datasets, task_name=None, 
         datasets = modify_inputs_permute_sentence(data_args, training_args, datasets, task_name, tokenizer)
 
     # If we need to sample only a part of the dataset, handle it separately
-    if data_args.target_dataset_ratio is not None:
+    if 'target_dataset_ratio' in dir(data_args) and data_args.target_dataset_ratio is not None:
         # Subsample the original dataset
         for key in datasets.keys():
             if key == 'train':
