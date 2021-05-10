@@ -1,0 +1,12 @@
+./en_to_fr.sh
+./en_to_hi.sh
+./en_to_ar.sh
+./fr_to_en.sh
+./fr_to_hi.sh
+./fr_to_ar.sh
+./hi_to_en.sh
+./hi_to_fr.sh
+./hi_to_ar.sh
+./ar_to_en.sh
+./ar_to_fr.sh
+./ar_to_hi.sh

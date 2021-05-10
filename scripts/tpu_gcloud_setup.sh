@@ -54,6 +54,7 @@ function RestartVM {
     export WANDB_PROJECT="multilingual_synthetic"
     export WANDB_PROJECT="multilingual_synthetic_downstream"
     export WANDB_PROJECT="multilingual_analysis"
+    export WANDB_PROJECT="multilingual_mono_zs"
 }
 
 function Wandb {
