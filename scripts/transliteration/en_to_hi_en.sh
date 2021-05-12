@@ -50,7 +50,7 @@ python ../../transformers/examples/xla_spawn.py --num_cores 1 ../../transformers
 TASK='tatoeba'
 
 # Eval
-python ../../transformers/examples/xla_spawn.py --num_cores 1 ../../transformers/examples/sentence_retrieval/run_sentence_retrieval_synthetic.py --max_seq_length 128 --pool_type middle --bilingual --logging_steps 50 --overwrite_output_dir --do_train --per_device_train_batch_size 32 --per_device_eval_batch_size 32 --train_file ../../../../bucket/supervised_data/tatoeba/$SRC/$SRC_$TGT.json --output_dir $OUTPUT_DIR$TASK --run_name $ZERO$RUN_NAME$TASK --model_name_or_path $MODEL
+python ../../transformers/examples/xla_spawn.py --num_cores 1 ../../transformers/examples/sentence_retrieval/run_sentence_retrieval_synthetic.py --max_seq_length 128 --pool_type middle --bilingual --logging_steps 50 --overwrite_output_dir --do_train --per_device_train_batch_size 32 --per_device_eval_batch_size 32 --train_file ../../../../bucket/supervised_data/tatoeba/$SRC/$SRC\_$TGT.json --output_dir $OUTPUT_DIR$TASK --run_name $ZERO$RUN_NAME$TASK --model_name_or_path $MODEL
 
 # ##### XQuAD #####
 # TASK='xquad'
