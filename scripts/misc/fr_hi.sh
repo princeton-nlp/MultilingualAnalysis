@@ -2,10 +2,10 @@
 # Author: Ameet Deshpande
 
 # Define some global variables
-SRC="fr"
-TGT="hi"
-MODEL="../../../../bucket/model_outputs/bilingual/${SRC}_${TGT}/mlm"
-OUTPUT_DIR="../../../../bucket/model_outputs/bilingual/${SRC}_${TGT}/"
+SRC="hi"
+TGT="fr"
+MODEL="../../../../bucket/model_outputs/bilingual/${TGT}_${SRC}/mlm"
+OUTPUT_DIR="../../../../bucket/model_outputs/bilingual/${SRC}_${TGT}_test/"
 RUN_NAME="bi_${SRC}_${TGT}_"
 ZERO="zero_"
 
