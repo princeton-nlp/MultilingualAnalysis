@@ -17,13 +17,6 @@ def convert_ner_to_sentences(args):
         for line in src:
             lines.append(line)
 
-    for line in lines:
-        line['sentence1'] = trn.transform(line['sentence1'])
-        line['sentence2'] = trn.transform(line['sentence2'])
-
-    # Write the file
-    
-
     # Store the sentences
     sentences = []
 

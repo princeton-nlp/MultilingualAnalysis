@@ -87,7 +87,7 @@ def convert_to_document_ner(args):
         if temp_dict is None:
             ignored += 1
         else:
-            f.write(json.dumps(temp_dict)+'\n')        
+            f.write(json.dumps(temp_dict)+'\n')
     f.close()
 
     # Print statistics
