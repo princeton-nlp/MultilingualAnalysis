@@ -36,19 +36,17 @@ def get_orthogonal_mapping(embeddings, args, train):
     U, Sigma, V = np.linalg.svd(embeddings[1][train].T @ embeddings[0][train])
 
     # Construct the orthogonal mapping
-    W = U @ V.T
+    W = U @ V
 
     return W, embeddings
 
 
-def test_mapping(embeddings, orthogonal, args, validation):
+def test_mapping(embeddings, orthogonal, args, validation, train):
+    ############## Validation Accuracy #################
     # Compute the similarity matrix for words in the validation set
-    
-    # Transform word embeddings from first matrix
-    embeddings[0] = embeddings[0][validation] @ orthogonal.T
 
     # Compute the n X n similarity matrix
-    similarity = embeddings[0] @ embeddings[1][validation].T
+    similarity = (embeddings[0][validation] @ orthogonal.T) @ embeddings[1][validation].T
 
     # Compute argmax for each row
     selected_indices = np.argmax(similarity, axis=1)
@@ -57,7 +55,22 @@ def test_mapping(embeddings, orthogonal, args, validation):
     accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
 
     # Print the accuracy
-    print("The accuracy is: {}".format(accuracy))
+    print("Validation accuracy is: {}".format(accuracy))
+
+    ################# Train Accuracy ####################
+    # Compute the similarity matrix for words in the validation set
+
+    # Compute the n X n similarity matrix
+    similarity = (embeddings[0][train] @ orthogonal.T) @ embeddings[1][train].T
+
+    # Compute argmax for each row
+    selected_indices = np.argmax(similarity, axis=1)
+
+    # Compute the accuracy
+    accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+
+    # Print the accuracy
+    print("Train accuracy is: {}".format(accuracy))    
 
 
 def get_train_validation_indices(embeddings, args):
@@ -86,7 +99,7 @@ def main():
 
     orthogonal, embeddings = get_orthogonal_mapping(embeddings, args, train)
 
-    test_mapping(embeddings, orthogonal, args, validation)
+    test_mapping(embeddings, orthogonal, args, validation, train)
 
 if __name__ == '__main__':
     main()
