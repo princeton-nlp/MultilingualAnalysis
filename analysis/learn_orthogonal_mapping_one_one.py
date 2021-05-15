@@ -56,6 +56,7 @@ def test_mapping(embeddings, orthogonal, args, validation, train):
 
     # Print the accuracy
     print("Validation accuracy is: {}".format(accuracy))
+    print("Support: {}".format(selected_indices.shape[0]))
 
 
     ####### Validation Accuracy without alignment ######
