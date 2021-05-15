@@ -3,7 +3,7 @@
 
 # Define some global variables
 LANG="fr"
-MODEL="flaubert/flaubert_base_cased"
+MODEL="camembert-base"
 OUTPUT_DIR="../../../../bucket/model_outputs/sota/${LANG}/"
 RUN_NAME="${LANG}_sota_"
 GRAD_ACC="--gradient_accumulation_steps 2"
