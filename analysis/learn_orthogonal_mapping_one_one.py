@@ -57,6 +57,21 @@ def test_mapping(embeddings, orthogonal, args, validation, train):
     # Print the accuracy
     print("Validation accuracy is: {}".format(accuracy))
 
+
+    ####### Validation Accuracy without alignment ######
+    # Compute the n X n similarity matrix
+    similarity = embeddings[0][validation] @ embeddings[1][validation].T
+
+    # Compute argmax for each row
+    selected_indices = np.argmax(similarity, axis=1)
+
+    # Compute the accuracy
+    accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+
+    # Print the accuracy
+    print("Validation accuracy without alignment is: {}".format(accuracy))    
+
+
     ################# Train Accuracy ####################
     # Compute the similarity matrix for words in the validation set
 
