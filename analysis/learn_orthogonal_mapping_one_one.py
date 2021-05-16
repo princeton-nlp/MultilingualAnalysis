@@ -45,14 +45,17 @@ def test_mapping(embeddings, orthogonal, args, validation, train):
     ############## Validation Accuracy #################
     # Compute the similarity matrix for words in the validation set
 
-    # Compute the n X n similarity matrix
-    similarity = (embeddings[0][validation] @ orthogonal.T) @ embeddings[1][validation].T
+    # Compute the n X m similarity matrix
+    # similarity = (embeddings[0][validation] @ orthogonal.T) @ embeddings[1][validation].T
+    similarity = (embeddings[0][validation] @ orthogonal.T) @ embeddings[1].T
 
     # Compute argmax for each row
     selected_indices = np.argmax(similarity, axis=1)
 
     # Compute the accuracy
-    accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+    total_correct = 0
+    # accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+    accuracy = np.sum(selected_indices == np.array(validation)) / selected_indices.shape[0] * 100
 
     # Print the accuracy
     print("Validation accuracy is: {}".format(accuracy))
@@ -61,13 +64,15 @@ def test_mapping(embeddings, orthogonal, args, validation, train):
 
     ####### Validation Accuracy without alignment ######
     # Compute the n X n similarity matrix
-    similarity = embeddings[0][validation] @ embeddings[1][validation].T
+    # similarity = embeddings[0][validation] @ embeddings[1][validation].T
+    similarity = embeddings[0][validation] @ embeddings[1].T
 
     # Compute argmax for each row
     selected_indices = np.argmax(similarity, axis=1)
 
     # Compute the accuracy
-    accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+    # accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+    accuracy = np.sum(selected_indices == np.array(validation)) / selected_indices.shape[0] * 100
 
     # Print the accuracy
     print("Validation accuracy without alignment is: {}".format(accuracy))    
@@ -77,13 +82,15 @@ def test_mapping(embeddings, orthogonal, args, validation, train):
     # Compute the similarity matrix for words in the validation set
 
     # Compute the n X n similarity matrix
-    similarity = (embeddings[0][train] @ orthogonal.T) @ embeddings[1][train].T
+    # similarity = (embeddings[0][train] @ orthogonal.T) @ embeddings[1][train].T
+    similarity = (embeddings[0][train] @ orthogonal.T) @ embeddings[1].T
 
     # Compute argmax for each row
     selected_indices = np.argmax(similarity, axis=1)
 
     # Compute the accuracy
-    accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+    # accuracy = np.sum(selected_indices == np.arange(selected_indices.shape[0])) / selected_indices.shape[0] * 100
+    accuracy = np.sum(selected_indices == np.array(train)) / selected_indices.shape[0] * 100
 
     # Print the accuracy
     print("Train accuracy is: {}".format(accuracy))    
@@ -93,7 +100,7 @@ def get_train_validation_indices(embeddings, args):
     vocab_size = embeddings[0].shape[0]
     indices = list(range(vocab_size))
     np.random.shuffle(indices)
-    train, validation = indices[:int(vocab_size * args.train_fraction)], indices[int(vocab_size * args.train_fraction):]
+    train, validation = indices[:int(vocab_size * args.train_fraction)], indices[-int(vocab_size * args.valid_fraction):]
 
     return train, validation
 
@@ -105,9 +112,11 @@ def main():
     parser.add_argument("--model1", type=str, required=True, help="")
     parser.add_argument("--model2", default=None, type=str, help="")
     parser.add_argument("--train_fraction", type=float, default=0.1)
+    parser.add_argument("--valid_fraction", type=float, default=0.4)
     parser.add_argument("--random_seed", type=int, default=42)
 
     args = parser.parse_args()
+    args.model2 = args.model1
 
     embeddings = get_embeddings(args)
 

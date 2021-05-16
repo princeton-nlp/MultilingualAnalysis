@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. Most recent change in the month occurs first.
 
 ## May 2021
+1. Added `analysis/check_tokenization_split.py` for checking the expansion ration (defined in the paper).
+1. Added `analysis/learn_orthogonal_mapping_one_one.py` for Procrustes method.
 1. Added transliteration config files in `config/bilingual`.
 1. Added `preprocessing/transliteration` for transliteration experiments.
 1. Added `run_mlm_synthetic_transitive.py` for transitive syntax modification experiments.
