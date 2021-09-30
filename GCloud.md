@@ -33,3 +33,8 @@
 1. Start a VM -`./google-cloud-sdk/bin/gcloud compute instances start --project=attention-guidance --zone=europe-west4-a  mult-p-1`
 1. Stop a VM - `./google-cloud-sdk/bin/gcloud compute instances stop --project=attention-guidance --zone=europe-west4-a  mult-p-1`
 1. List all Google Cloud instances - `./google-cloud-sdk/bin/gcloud compute instances list`
+
+### Commands for zone us-central1-a
+1. Connect to a VM - `./google-cloud-sdk/bin/gcloud compute ssh --project=attention-guidance --zone=us-central1-a exp-1`
+1. Start a VM -`./google-cloud-sdk/bin/gcloud compute instances start --project=attention-guidance --zone=us-central1-a  exp-1`
+1. Stop a VM - `./google-cloud-sdk/bin/gcloud compute instances stop --project=attention-guidance --zone=us-central1-a  exp-1`
