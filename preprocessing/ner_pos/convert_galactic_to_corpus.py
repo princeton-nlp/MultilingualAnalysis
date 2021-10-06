@@ -45,7 +45,7 @@ def convert_to_document_ner(args):
     JSON files need to follow these guidelines: https://huggingface.co/docs/datasets/loading_datasets.html#json-files
     """
     # Store lines in the file
-    lines = open(args.galactic_file, 'r').readlines()
+    lines = open(args.galactic_file, 'r', encoding='utf8').readlines()
 
     # Store both in the monolingual and synthetic language corpus
     monolingual = []

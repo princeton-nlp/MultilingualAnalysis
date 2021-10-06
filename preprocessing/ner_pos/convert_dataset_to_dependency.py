@@ -122,7 +122,7 @@ def convert_to_conllu_ner(args):
     dependencies code doesn't ignore it.
     """
     # Load the file
-    sentences = open(args.data, 'r').readlines()
+    sentences = open(args.data, 'r', encoding='utf8').readlines()
 
     # Instantiate a model
     stanza.download(args.language, model_dir=args.cache_dir, verbose=args.verbose)

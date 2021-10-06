@@ -1,0 +1,44 @@
+# sentence-tokens-src: From the AP comes this story :
+# sentence-tokens: this story comes From the AP :
+1	this	this	DET	DT	Number=Sing|PronType=Dem	2	det	_	_	sample.conllu:5	5	this
+2	story	story	NOUN	NN	Number=Sing	3	nsubj	_	_	sample.conllu:6	6	story
+3	comes	come	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_	sample.conllu:4	4	comes
+4	From	from	ADP	IN	_	6	case	_	_	sample.conllu:1	1	From
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_	sample.conllu:2	2	the
+6	AP	AP	PROPN	NNP	Number=Sing	3	nmod	_	_	sample.conllu:3	3	AP
+7	:	:	PUNCT	:	_	3	punct	_	_	sample.conllu:7	7	:
+
+# sentence-tokens-src: Every move Google makes brings this particular future closer .
+# sentence-tokens: Every move Google makes closer brings this particular future .
+1	Every	every	DET	DT	_	2	det	_	_	sample.conllu:9	1	Every
+2	move	move	NOUN	NN	Number=Sing	6	nsubj	_	_	sample.conllu:10	2	move
+3	Google	Google	PROPN	NNP	Number=Sing	4	nsubj	_	_	sample.conllu:11	3	Google
+4	makes	make	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	acl:relcl	_	_	sample.conllu:12	4	makes
+5	closer	closer	ADV	RBR	Degree=Cmp	6	advmod	_	SpaceAfter=No	sample.conllu:17	9	closer
+6	brings	bring	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_	sample.conllu:13	5	brings
+7	this	this	DET	DT	Number=Sing|PronType=Dem	9	det	_	_	sample.conllu:14	6	this
+8	particular	particular	ADJ	JJ	Degree=Pos	9	amod	_	_	sample.conllu:15	7	particular
+9	future	future	NOUN	NN	Number=Sing	6	dobj	_	_	sample.conllu:16	8	future
+10	.	.	PUNCT	.	_	6	punct	_	_	sample.conllu:18	10	.
+
+# sentence-tokens-src: Avec le Club Nacional , il remporte un championnat d' Uruguay .
+# sentence-tokens: il Avec le Nacional Club , remporte un championnat d' Uruguay .
+1	il	il	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	7	nsubj	_	start_char=24|end_char=26	sample.conllu:25	6	il
+2	Avec	avec	ADP	_	_	5	case	_	start_char=0|end_char=4	sample.conllu:20	1	Avec
+3	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	5	det	_	start_char=5|end_char=7	sample.conllu:21	2	le
+4	Nacional	Nacional	PROPN	_	_	5	flat:name	_	start_char=13|end_char=21	sample.conllu:23	4	Nacional
+5	Club	Club	PROPN	_	Gender=Masc|Number=Sing	7	obl:mod	_	start_char=8|end_char=12	sample.conllu:22	3	Club
+6	,	,	PUNCT	_	_	5	punct	_	start_char=22|end_char=23	sample.conllu:24	5	,
+7	remporte	remporter	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=27|end_char=35	sample.conllu:26	7	remporte
+8	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	9	det	_	start_char=36|end_char=38	sample.conllu:27	8	un
+9	championnat	championnat	NOUN	_	Gender=Masc|Number=Sing	7	obj	_	start_char=39|end_char=50	sample.conllu:28	9	championnat
+10	d'	de	ADP	_	_	11	case	_	start_char=51|end_char=53	sample.conllu:29	10	d'
+11	Uruguay	Uruguay	PROPN	_	_	9	nmod	_	start_char=53|end_char=60	sample.conllu:30	11	Uruguay
+12	.	.	PUNCT	_	_	7	punct	_	start_char=61|end_char=62	sample.conllu:31	12	.
+
+# sentence-tokens-src: Omaha ( Nebraska
+# sentence-tokens: Omaha Nebraska (
+1	Omaha	Omaha	PROPN	_	_	0	root	_	start_char=0|end_char=5	sample.conllu:33	1	Omaha
+2	Nebraska	Nebraska	PROPN	_	_	1	appos	_	star	sample.conllu:35	3	Nebraska
+3	(	(	PUNCT	_	_	2	punct	_	start_char=6|end_char=7	sample.conllu:34	2	(
+

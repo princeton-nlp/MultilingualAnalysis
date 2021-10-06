@@ -13,7 +13,7 @@ import newlinejson as nlj
 def convert_ner_to_sentences(args):
     # Open JSON file
     lines = []
-    with nlj.open(args.file) as src:
+    with nlj.open(args.file, mode='r', encoding='utf8') as src:
         for line in src:
             lines.append(line)
 
@@ -21,6 +21,9 @@ def convert_ner_to_sentences(args):
     sentences = []
 
     for line in lines:
+        # string_to_write = ' '.join(line['tokens'])+'\n'
+        # string_to_write = string_to_write.encode("utf-8")
+        # sentences.append(string_to_write)
         sentences.append(' '.join(line['tokens'])+'\n')
 
     # Save the file

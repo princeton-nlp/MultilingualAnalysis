@@ -9,7 +9,7 @@
 # Define some global variables
 LANG=$1
 EVAL="_zero"
-MODEL_DIR="inverted_order_500K"
+MODEL_DIR="inverted_order"
 MODEL="../../../../bucket/model_outputs/${LANG}/${MODEL_DIR}/mlm"
 OUTPUT_DIR="../../../../bucket/model_outputs/${LANG}/${MODEL_DIR}/"
 RUN_NAME="${LANG}_${MODEL_DIR}_"
