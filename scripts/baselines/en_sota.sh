@@ -4,7 +4,7 @@
 # Define some global variables
 LANG="en"
 MODEL="bert-base-uncased"
-OUTPUT_DIR="../../../../bucket/model_outputs/sota/${LANG}/"
+OUTPUT_DIR="../../../../bucket/model_outputs/bert-base-uncased/${LANG}/"
 RUN_NAME="${LANG}_sota_"
 GRAD_ACC="--gradient_accumulation_steps 2"
 
