@@ -22,7 +22,7 @@ def convert_json_to_raw_text(args):
 
     f = open(new_file_name, 'w')
     for line in lines:
-        f.write(line + '\n')
+        f.write(line['text'] + '\n')
 
     f.close()
 
