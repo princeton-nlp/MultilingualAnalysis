@@ -5,7 +5,7 @@ function SourceCodeAndInstall {
     cd source_code
     git clone https://github.com/ameet-1997/Multilingual.git
     cd Multilingual/transformers/
-    conda activate torch-xla-1.6
+    conda activate torch-xla-1.7
     # In some instance, just `conda activate base` should work.
     # `import torch_xla` to check if it's the correct environment.
     pip install wandb
@@ -33,17 +33,17 @@ function MountBucket {
 }
 
 function MakeTPUs {
-    export VERSION=1.6
-    gcloud compute tpus create tpu1 --zone=us-central1-a --network=default --version=pytorch-1.6 --accelerator-type=v3-8
+    export VERSION=1.7
+    gcloud compute tpus create tpu1 --zone=us-central1-a --network=default --version=pytorch-1.7 --accelerator-type=v3-8
     gcloud compute tpus list --zone=us-central1-a
     # export TPU_IP_ADDRESS=10.38.186.234
     # export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 }
 
 function RestartVM {
-    conda activate torch-xla-1.6
+    conda activate torch-xla-1.7
     gcsfuse --implicit-dirs --debug_fuse multilingual-1  bucket/
-    export VERSION=1.6
+    export VERSION=1.7
     gcloud compute tpus list --zone=us-central1-a
     # export TPU_IP_ADDRESS=10.38.186.234
     # export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
