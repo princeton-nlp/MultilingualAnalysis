@@ -28,6 +28,8 @@ conda env create -f installation/multilingual.yml
 2. **Step 2:** Install `transformers` in an editable way.
 ``` bash
 pip install -e transformers/
+pip install -r transformers/examples/language-modeling/requirements.txt
+pip install -r transformers/examples/token-classification/requirements.txt
 ```
 
 ## Repository usage <a name="usage"></a>
