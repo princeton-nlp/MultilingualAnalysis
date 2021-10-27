@@ -49,7 +49,7 @@ function RestartVM {
     # export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
     cd source_code/Multilingual/transformers/
     git pull
-    export WANDB_API_KEY="fc68097ba21d58900b072a1279cf3cf6d83eb0c6"
+    export WANDB_API_KEY="X"
     export WANDB_ENTITY="ameet-1997"
     export WANDB_PROJECT="multilingual_synthetic"
     export WANDB_PROJECT="multilingual_synthetic_downstream"
@@ -59,7 +59,7 @@ function RestartVM {
 
 function Wandb {
     # wandb login
-    export WANDB_API_KEY="fc68097ba21d58900b072a1279cf3cf6d83eb0c6"
+    export WANDB_API_KEY="X"
     export WANDB_ENTITY="ameet-1997"
     export WANDB_PROJECT="mutlilingual_word"
     # export WANDB_NAME="wikitext_mlm"

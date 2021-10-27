@@ -1,7 +1,7 @@
 """
 Script for running pre-training and finetuning experiments on GPUs (locally) and TPUs
 
-Usage: python run_experiments.py --tpu --task  mlm --run_type monolingual --language en --other_args train_file=manchester_united bool_arg_1 bool_arg_2
+Usage: python run_experiments.py --tpu --task  mlm --run_type monolingual --language en --other_args train_file=something.txt bool_arg_1 bool_arg_2
 """
 import argparse
 import collections
