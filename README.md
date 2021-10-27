@@ -77,7 +77,7 @@ nohup python transformers/examples/xla_spawn.py --num_cores 8 transformers/examp
 1. [Link to fine-tuning and analysis](https://wandb.ai/ameet-1997/multilingual_synthetic_downstream?workspace=user-ameet-1997)
 
 ## Citation <a name="wb"></a>
-If you found this paper useful, consider citing using the following:
+Please consider citing if you used our paper in your work!
 
 ```
 To be updated soon!
