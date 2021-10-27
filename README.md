@@ -1,6 +1,6 @@
 # When is BERT Multilingual? Isolating Crucial Ingredients for Cross-lingual Transfer
 
-This repository contains code for our paper titled [When is BERT Multilingual? Isolating Crucial Ingredients for Cross-lingual Transfer](). [[arXiv]]()
+This repository contains code for our paper titled ["When is BERT Multilingual? Isolating Crucial Ingredients for Cross-lingual Transfer"](). [[arXiv]]()
 
 ## Table of contents
 1. [Paper in a nutshell](#nutshell)
