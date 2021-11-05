@@ -1,6 +1,6 @@
 # When is BERT Multilingual? Isolating Crucial Ingredients for Cross-lingual Transfer
 
-This repository contains code for our paper titled ["When is BERT Multilingual? Isolating Crucial Ingredients for Cross-lingual Transfer"](). [[arXiv]]()
+This repository contains code for our paper titled ["When is BERT Multilingual? Isolating Crucial Ingredients for Cross-lingual Transfer"](https://arxiv.org/pdf/2110.14782.pdf). [[arXiv]](https://arxiv.org/pdf/2110.14782.pdf) [[Blog]]()
 
 ## Table of contents
 1. [Paper in a nutshell](#nutshell)
@@ -82,5 +82,10 @@ nohup python transformers/examples/xla_spawn.py --num_cores 8 transformers/examp
 Please consider citing if you used our paper in your work!
 
 ```
-To be updated soon!
+@article{deshpande2021bert,
+  title={When is BERT Multilingual? Isolating Crucial Ingredients for Cross-lingual Transfer},
+  author={Deshpande, Ameet and Talukdar, Partha and Narasimhan, Karthik},
+  journal={arXiv preprint arXiv:2110.14782},
+  year={2021}
+}
 ```
