@@ -35,7 +35,7 @@ def compute_embeddings_mse(embeddings):
 
     # Compute mean euclidean distance
     mean_distance = np.mean(np.sqrt(np.sum(np.square(embeddings[0] - embeddings[1]), axis=1)))
-    print("Mean euclidean distance: {}".format(mean_distance))
+    print("Mean euclidean distance: {:.2f}".format(float(mean_distance)))
 
 
 
