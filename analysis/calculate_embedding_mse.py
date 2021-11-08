@@ -1,7 +1,7 @@
 """
 There is no need for iterative normalization because the real and synthetic language are isomorphic
 
-Example command: python learn_orthogonal_mapping_one_one.py --model1 ~/bucket/model_outputs/en/one_to_one_mapping_100_500K/mlm/ --model2 ~/bucket/model_outputs/en/one_to_one_mapping_100_500K/mlm/ --train_fraction 0.05 --valid_fraction 0.9
+Example command: python calculate_embedding_mse.py --model1 ~/bucket/model_outputs/en/one_to_one_mapping_100_500K/mlm/ --model2 ~/bucket/model_outputs/en/one_to_one_mapping_100_500K/mlm/ --train_fraction 0.05 --valid_fraction 0.9
 """
 
 import argparse
