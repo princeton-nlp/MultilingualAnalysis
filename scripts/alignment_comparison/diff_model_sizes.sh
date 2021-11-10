@@ -12,7 +12,7 @@ ZERO_SHOT_ADD="--one_to_one_mapping --word_modification replace"
 
 for MODEL_SUBSET in roberta_4_one_to_one_mapping_100_en roberta_8_one_to_one_mapping_100_en roberta_12_one_to_one_mapping_100_en roberta_16_one_to_one_mapping_100_en
 do
-    MODEL="../../../../bucket/model_outputs/${LANG}/${MODEL}/mlm"
+    MODEL="../../../../bucket/model_outputs/${LANG}/${MODEL_SUBSET}/mlm"
     RUN_NAME=$MODEL_SUBSET
 
     ##### XNLI #####
